@@ -1,33 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    margin: 0;
+    background-color: #303030;
+    color: white;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.title {
+    text-align: center;
+    margin-top: 150px;
+}
+.title-sub {
+    text-align: center;
+}
+
+.navbar {
+    background: white;
+    padding: 20px;
+}
+.navbar a {
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.food {
+    background: white;
+    color: black;
+    width: 300px;
+    border: 5px;
+    margin: 25px auto;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.food-img {
+    width: 100%;
+    height: auto;
+}
+
+.cart-item {
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid grey;
+    line-height: 0px;
 }
