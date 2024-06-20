@@ -1,7 +1,3 @@
-import { getBy } from "@/utill/database";
-
-export default async function Home() {
-    const result = await getBy("forum", "post");
-
+export default function Home() {
     return <div></div>;
 }

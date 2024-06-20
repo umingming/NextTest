@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 const url = "mongodb+srv://u13040035:java1234@cluster0.rrl2jwu.mongodb.net/";
 const options = { useNewUrlParser: true };
 let connectDB;
@@ -14,19 +14,32 @@ if (process.env.NODE_ENV === "development") {
 }
 
 /**
- * @param {String} db
- * @param {String} collection
  * @returns {Promise<Object[]>}
  */
-async function getBy(database, collection) {
+async function findPostAll() {
     try {
         const client = await connectDB;
-        const db = client.db(database);
-        return await db.collection(collection).find().toArray();
+        const db = client.db("forum");
+        return await db.collection("post").find().toArray();
     } catch (error) {
         console.log(error);
         throw error;
     }
 }
 
-export { getBy };
+/**
+ * @param {String} id
+ * @returns {Promise<Object[]>}
+ */
+async function findPostBy(id) {
+    try {
+        const client = await connectDB;
+        const db = client.db("forum");
+        return await db.collection("post").findOne({ _id: new ObjectId(id) });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export { findPostAll, findPostBy };
