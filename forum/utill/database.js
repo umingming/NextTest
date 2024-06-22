@@ -13,14 +13,24 @@ if (process.env.NODE_ENV === "development") {
     connectDB = new MongoClient(url, options).connect();
 }
 
+async function getPostCollection() {
+    try {
+        const client = await connectDB;
+        const db = client.db("forum");
+        return await db.collection("post");
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 /**
  * @returns {Promise<Object[]>}
  */
 async function findPostAll() {
     try {
-        const client = await connectDB;
-        const db = client.db("forum");
-        return await db.collection("post").find().toArray();
+        const collection = await getPostCollection();
+        return await collection.find().toArray();
     } catch (error) {
         console.log(error);
         throw error;
@@ -42,4 +52,4 @@ async function findPostBy(id) {
     }
 }
 
-export { findPostAll, findPostBy };
+export { getPostCollection, findPostAll, findPostBy };
