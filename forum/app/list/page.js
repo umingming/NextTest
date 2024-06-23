@@ -1,6 +1,6 @@
 import { findPostAll } from "@/utill/database";
 import Link from "next/link";
-import DetailLink from "./detailLink";
+import ButtonLink from "./buttonLink";
 
 export default async function List() {
     const posts = await findPostAll();
@@ -25,7 +25,7 @@ function Post({ id, title, content }) {
             <Link href={url}>
                 <h4>{title}</h4>
             </Link>
-            <DetailLink id={id} />
+            <ButtonLink id={id} path="edit" />
             <p>{content}</p>
         </div>
     );
