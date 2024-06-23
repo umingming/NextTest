@@ -14,7 +14,9 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body className={inter.className}>
                 <div className="navbar">
-                    <Link href="/">홈</Link>
+                    <Link href="/" className="logo">
+                        AppleForum
+                    </Link>
                     <Link href="/list">List</Link>
                     <Link href="/join">회원가입</Link>
                 </div>

@@ -1,3 +1,18 @@
+/* Nav */
+.navbar {
+    background: white;
+    padding: 20px;
+}
+.navbar a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+}
+.logo {
+    font-weight: bold;
+}
+
+/* List */
 .list-bg {
     background: rgb(249, 250, 255);
     padding: 10px;

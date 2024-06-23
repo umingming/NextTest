@@ -1,7 +1,7 @@
 import { getPostCollection } from "@/utill/database";
 import { ObjectId } from "mongodb";
 
-export default async function handler({ method, body }, response) {
+export default async function handler({ method, body, params }, response) {
     if (method === "POST") {
         try {
             const { id, title, content } = body;
@@ -22,6 +22,14 @@ export default async function handler({ method, body }, response) {
     } else if (method === "PUT") {
         try {
             console.log(params);
+            return response.status(200).redirect("list");
+        } catch (error) {
+            return response.status(500).json("에러났다.");
+        }
+    } else if (method === "DELETE") {
+        try {
+            const collection = await getPostCollection();
+            await collection.deleteOne({ _id: new ObjectId(body) });
             return response.status(200).redirect("list");
         } catch (error) {
             return response.status(500).json("에러났다.");

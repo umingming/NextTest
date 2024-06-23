@@ -2,15 +2,15 @@
 
 import { useRouter } from "next/navigation";
 
-export default function ButtonLink({ id, path }) {
+export default function ButtonLink({ id, type }) {
     // cilent 컴포넌트에서만 가능함
     const router = useRouter();
 
     function go() {
-        const url = `/${path}/${id}`;
+        const url = `/${type}/${id}`;
         router.prefetch(url);
         router.push(url);
     }
 
-    return <button onClick={go}>버튼</button>;
+    return <button onClick={go}>{type}</button>;
 }
