@@ -1,6 +1,7 @@
 import { findPostAll } from "@/utill/database";
 import ListItem from "./listItem";
 
+export const dynamic = "force-dynamic";
 export default async function List() {
     const posts = await findPostAll();
 
