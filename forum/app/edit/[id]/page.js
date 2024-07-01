@@ -7,6 +7,7 @@ export default async function Edit({ params: { id } }) {
         return (
             <div className="p-20">
                 <h4>글 수정</h4>
+                {/* Post api 정의 */}
                 <form action="/api/post" method="POST">
                     {/* name 정의하면 body key 받을 수 있다. */}
                     <input type="hidden" name="id" defaultValue={id} />
