@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ButtonLink from "./buttonLink";
 
-export default function ListItem({ id, title, content }) {
+export default function ListItem({ id, title, content, hasAuth }) {
     const url = `/detail/${id}`;
 
     function deletePost({ target }) {
@@ -25,8 +25,12 @@ export default function ListItem({ id, title, content }) {
             <Link href={url}>
                 <h4>{title}</h4>
             </Link>
-            <ButtonLink id={id} type="edit" />
-            <button onClick={deletePost}>Delete</button>
+            {hasAuth ? (
+                <span>
+                    <ButtonLink id={id} type="edit" />
+                    <button onClick={deletePost}>Delete</button>
+                </span>
+            ) : null}
             <p>{content}</p>
         </div>
     );

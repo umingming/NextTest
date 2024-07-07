@@ -1,21 +1,20 @@
 import { getPostCollection } from "@/utill/database";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
 
-export default async function handler(
-    { method, body, params, query },
-    response,
-) {
+export default async function handler(request, response) {
+    const session = await getServerSession(request, response, authOptions);
+    const { method, body, params, query } = request;
+
     if (method === "POST") {
         try {
             const { id, title, content } = body;
             if (!title) {
                 return response.status(400).json("제목 써라");
             }
-            // const collection = await getPostCollection();
-            // await collection.updateOne(
-            //     { _id: new ObjectId(id) },
-            //     { $set: { title, content } },
-            // );
+            // 유저 정보 추가
+            body.author = session.user.email;
             const collection = await getPostCollection();
             const { insertedId } = await collection.insertOne(body);
             return response.status(200).redirect(`/detail/${insertedId}`);

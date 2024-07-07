@@ -56,4 +56,4 @@ async function findPostBy(id) {
     }
 }
 
-export { getCollection, getPostCollection, findPostAll, findPostBy };
+export { connectDB, getCollection, getPostCollection, findPostAll, findPostBy };
