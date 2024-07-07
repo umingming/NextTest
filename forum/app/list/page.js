@@ -6,13 +6,14 @@ import ListItem from "./listItem";
 export const dynamic = "force-dynamic";
 export default async function List() {
     const posts = await findPostAll();
-    const session = await getServerSession(authOptions);
+    const { user } = (await getServerSession(authOptions)) ?? {};
 
     return (
         <div className="list-bg">
             {posts.map(({ _id, title, content, author }) => {
                 const id = _id.toString();
-                const { email } = session.user ?? {};
+                const hasAuth =
+                    user?.isAdmin || (author && author === user?.email);
 
                 return (
                     <ListItem
@@ -20,7 +21,7 @@ export default async function List() {
                         id={id}
                         title={title}
                         content={content}
-                        hasAuth={email === author}
+                        hasAuth={hasAuth}
                     />
                 );
             })}
