@@ -1,4 +1,5 @@
 import { findPostBy } from "@/utill/database";
+import Comment from "./comment";
 
 // dynamic route param
 export default async function Detail({ params: { id } }) {
@@ -9,6 +10,7 @@ export default async function Detail({ params: { id } }) {
                 <h4>상세페이지</h4>
                 <h4>{post.title}</h4>
                 <p>{post.content}</p>
+                <Comment postId={id} />
             </div>
         );
     } else {
