@@ -6,6 +6,9 @@ export default function Comment({ postId }) {
     //============================= Comment
     const [comment, setComment] = useState();
 
+    /**
+     * @param {Event} event 
+     */
     function setCommentBy({ target: { value } }) {
         setComment(value);
     }
