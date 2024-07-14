@@ -1,21 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Like({ postId, user }) {
-    //============================= Liked
-    const [liked, setLiked] = useState(false);
-
-    /**
-     * postId와 이메일을 기준으로 liked를 토글할 것
-     */
-    function toggleLiked() {
-        fetch("/api/like", {
-            method: "POST",
-            body: JSON.stringify({ postId, liked: !liked }),
-        }).then(() => initLikes());
-    }
-
     //============================= Likes
     const [likes, setLikes] = useState([]);
 
@@ -30,13 +17,24 @@ export default function Like({ postId, user }) {
         fetch(`/api/like?postId=${postId}`)
             .then((response) => response.json())
             .then((result) => {
-                // 좋아요
-                const {liked} = result.find(like => like.user === user.email) ?? {};
-                setLiked(liked);
-
-                // 배열
-                setLikes(result.filter(({ liked }) => liked));
+                setLikes(result);
             });
+    }
+
+    //============================= Liked
+    const liked = useMemo(() => {
+        const { liked } = likes.find((like) => like.user === user.email) ?? {};
+        return liked;
+    }, [likes]);
+
+    /**
+     * postId와 이메일을 기준으로 liked를 토글할 것
+     */
+    function toggleLiked() {
+        fetch("/api/like", {
+            method: "POST",
+            body: JSON.stringify({ postId, liked: !liked }),
+        }).then(() => initLikes());
     }
 
     return (
@@ -44,7 +42,7 @@ export default function Like({ postId, user }) {
             <span className={liked ? "on" : "off"} onClick={toggleLiked}>
                 ♥
             </span>
-            {likes.length}
+            {likes.filter(({ liked }) => liked).length}
         </div>
     );
 }
