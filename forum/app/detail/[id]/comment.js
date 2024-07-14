@@ -7,10 +7,13 @@ export default function Comment({ postId }) {
     const [comment, setComment] = useState();
     const [comments, setComments] = useState([]);
 
-    // 랜더링 후 한 번만 실행
+    /*
+        1. 빈 문자열이면 랜더링 후 한 번만 실행
+        2. 랜더링 이후에 로직 수행
+    */
     useEffect(() => {
         fetchComments();
-    }, [])
+    }, []);
 
     /**
      * postId 기준으로 댓글 목록 가져오기
@@ -19,6 +22,7 @@ export default function Comment({ postId }) {
         fetch(`/api/comments/${postId}`)
             .then((response) => response.json())
             .then(setComments);
+        
     }
 
     /**
@@ -35,8 +39,10 @@ export default function Comment({ postId }) {
         fetch("/api/comment", {
             method: "POST",
             body: JSON.stringify({ comment, postId }),
+        }).then(() => {
+            setComment("");
+            fetchComments();
         });
-        fetchComments();
     }
 
     return (
@@ -45,7 +51,7 @@ export default function Comment({ postId }) {
             {comments.map(({ comment }) => (
                 <div>{comment}</div>
             ))}
-            <input onChange={setCommentBy} />
+            <input value={comment} onChange={setCommentBy} />
             <button onClick={postComment}>전송</button>
         </div>
     );
