@@ -51,3 +51,15 @@ button {
     border: none;
     border-radius: 5px;
 }
+
+/* Like */
+.like span {
+    color: red;
+    font-size: 18px;
+    opacity: 0.2;
+    margin-right: 3px;
+    cursor: pointer;
+}
+.like span.on {
+    opacity: 1;
+}

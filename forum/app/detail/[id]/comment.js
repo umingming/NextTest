@@ -46,9 +46,12 @@ export default function Comment({ postId }) {
 
     return (
         <div>
-            <div>댓글 목록 보여줄 부분</div>
-            {comments.map(({ comment }) => (
-                <div>{comment}</div>
+            <div>================댓글================</div>
+            {comments.map(({ _id, comment, author }) => (
+                <div key={_id.toString()}>
+                    <pre>{author}</pre>
+                    <span>{comment}</span>
+                </div>
             ))}
             <input value={comment} onChange={setCommentBy} />
             <button onClick={postComment}>전송</button>
