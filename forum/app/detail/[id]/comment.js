@@ -19,10 +19,9 @@ export default function Comment({ postId }) {
      * postId 기준으로 댓글 목록 가져오기
      */
     async function fetchComments() {
-        fetch(`/api/comments/${postId}`)
+        fetch(`/api/comment?postId=${postId}`)
             .then((response) => response.json())
             .then(setComments);
-        
     }
 
     /**
