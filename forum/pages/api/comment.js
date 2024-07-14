@@ -27,7 +27,6 @@ export default async function handler(request, response) {
             const { postId } = body;
             const collection = await getCollection("comment");
             const result = await collection.findAll({ postId });
-            console.log(result);
             return response.status(200).redirect(`/detail/${postId}`);
         } catch (error) {
             return response.status(500).json("에러났다.");
