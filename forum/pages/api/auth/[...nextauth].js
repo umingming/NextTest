@@ -59,9 +59,8 @@ export const authOptions = {
             return token;
         },
         //5. 유저 세션이 조회될 때 마다 실행되는 코드
-        session: async ({ session, token }) => {
-            session.user = token.user;
-            return session;
+        session: async ({ session, token: { user } }) => {
+            return Object.assign(session, { user });
         },
     },
 

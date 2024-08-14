@@ -34,8 +34,9 @@ export default function Like({ postId, user }) {
         fetch("/api/like", {
             method: "POST",
             body: JSON.stringify({ postId, liked: !liked }),
-        }).then(() => initLikes());
+        }).then(initLikes);
     }
+    
 
     return (
         <div className="like">
