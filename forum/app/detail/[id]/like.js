@@ -36,7 +36,6 @@ export default function Like({ postId, user }) {
             body: JSON.stringify({ postId, liked: !liked }),
         }).then(initLikes);
     }
-    
 
     return (
         <div className="like">
