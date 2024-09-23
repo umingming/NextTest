@@ -4,7 +4,35 @@ export default function Home() {
         <div className="bg-slate-400 py-10 px-5 flex flex-col space-y-5 min-h-screen">
             <div className="bg-white p-10 rounded-3xl shadow-xl">
                 <span className="font-semibold text-3xl">Select Item</span>
-                <div className="flex justify-between my-2">
+                <ul>
+                    {/* only는 요소가 하나면 쓸 수 있다. */}
+                    {[1, 2, 3, 4, 5].map((index) => (
+                        <div
+                            className="
+                                flex justify-between
+                                first:bg-blue-50 last:bg-blue-50 only:bg-red-500
+                                odd:bg-blue-500 even:bg-yellow-500
+                            "
+                        >
+                            <span className="text-gray-500">Tooly Table</span>
+                            <span className="font-semibold">$80</span>
+                        </div>
+                    ))}
+                </ul>
+                <ul>
+                    {["a", "b", "c", ""].map((char, index) => (
+                        <li
+                            key={char}
+                            className="
+                            bg-red-500 py-2
+                            empty:hidden
+                        "
+                        >
+                            {char}
+                        </li>
+                    ))}
+                </ul>
+                {/* <div className="flex justify-between my-2">
                     <span className="text-gray-500">Grey Chair</span>
                     <span className="font-semibold">$19</span>
                 </div>
@@ -15,7 +43,7 @@ export default function Home() {
                 <div className="flex justify-between mt-2 pt-2 border-t-2 border-dashed">
                     <span>Total</span>
                     <span className="font-semibold">$99</span>
-                </div>
+                </div> */}
                 <div
                     className="
                         mt-5 p-5 text-center rounded-xl w-1/2 mx-auto
