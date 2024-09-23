@@ -1,11 +1,27 @@
 export default function Home() {
     return (
         // space는 자식 요소에 margin을 만들어줌.
-        <div className="bg-slate-400 py-10 px-5 flex flex-col space-y-5 min-h-screen">
-            <div className="bg-white p-10 rounded-3xl shadow-xl">
+        <div
+            className="
+                bg-slate-400 py-10 px-5 space-y-5 min-h-screen xl:place-content-center
+                grid gap-10 lg:grid-cols-2 xl:grid-cols-3
+            "
+        >
+            <div
+                className="
+                    bg-white p-10 rounded-3xl shadow-xl
+                    sm:bg-red-50
+                    md:bg-teal-50
+                    lg:bg-indigo-400
+                    xl:bg-yellow-300
+                    2xl:bg-pink-400
+                    dark:bg-black
+                    dark:text-white
+                "
+            >
                 <span className="font-semibold text-3xl">Select Item</span>
-                <ul>
-                    {/* only는 요소가 하나면 쓸 수 있다. */}
+                {/* only는 요소가 하나면 쓸 수 있다. */}a
+                {/* <ul>
                     {[1, 2, 3, 4, 5].map((index) => (
                         <div
                             className="
@@ -31,8 +47,8 @@ export default function Home() {
                             {char}
                         </li>
                     ))}
-                </ul>
-                {/* <div className="flex justify-between my-2">
+                </ul> */}
+                <div className="flex justify-between my-2">
                     <span className="text-gray-500">Grey Chair</span>
                     <span className="font-semibold">$19</span>
                 </div>
@@ -43,7 +59,7 @@ export default function Home() {
                 <div className="flex justify-between mt-2 pt-2 border-t-2 border-dashed">
                     <span>Total</span>
                     <span className="font-semibold">$99</span>
-                </div> */}
+                </div>
                 <div
                     className="
                         mt-5 p-5 text-center rounded-xl w-1/2 mx-auto
@@ -55,8 +71,19 @@ export default function Home() {
                     Checkout
                 </div>
             </div>
-            <div className="bg-white overflow-hidden rounded-2xl shadow-xl">
-                <div className="bg-blue-500 p-6 pb-14">
+            <div
+                className="
+                    test-group group
+                    bg-white overflow-hidden rounded-2xl shadow-xl
+                "
+            >
+                <div
+                    className="
+                        bg-blue-500 p-6 pb-14 
+                        xl:pb-40
+                        landscape:bg-teal-500
+                    "
+                >
                     <span className="text-white text-2xl">Profile</span>
                 </div>
                 <div className="rounded-3xl p-6 relative -top-5 bg-white">
@@ -67,7 +94,13 @@ export default function Home() {
                             </span>
                             <span className="font-medium">340</span>
                         </div>
-                        <div className="h-24 w-24 ml-2 bg-green-500 rounded-full" />
+                        <div
+                            className="
+                                h-24 w-24 ml-2 bg-green-50 rounded-full
+                                test-group-hover:bg-red-300
+                                transition-colors
+                            "
+                        />
                         <div className="flex flex-col items-center">
                             <span className="text-sm text-gray-500">Spent</span>
                             <span className="font-medium">$2,310</span>
@@ -79,7 +112,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="bg-white p-6 rounded-3xl shadow-xl">
+            <div className="bg-white p-6 rounded-3xl shadow-xl lg:col-span-2 xl:col-span-1">
                 <div className="flex mb-5 justify-between items-center">
                     <span>⬅️</span>
                     <div className="space-x-3">
@@ -139,6 +172,86 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+            {/* placeshown보다 invalid의 우선순위가 더 높다. */}
+            {/* <form
+                className="
+                    flex flex-col space-y-2 p-5
+                    bg-blue-500
+                    focus-within:bg-blue-100
+                "
+            >
+                <input
+                    type="text"
+                    required
+                    placeholder="Username"
+                    className="
+                        peer
+                        border-yellow-500
+                        required:border-2
+                        invalid:bg-red-300
+                        valid:bg-teal-500
+                        placeholder-shown:bg-blue-500
+                        placeholder:text-red-500
+                    "
+                />
+                <span
+                    className="
+                        hidden
+                        peer-invalid:block peer-invalid:text-red-500
+                    "
+                >
+                    This input is invalid
+                </span>
+                <span
+                    className="
+                        hidden
+                        peer-valid:block peer-valid:text-teal-500
+                    "
+                >
+                    This input is valid
+                </span>
+                <input
+                    type="password"
+                    required
+                    placeholder="Password"
+                    className=""
+                />
+                <input
+                    type="submit"
+                    value="Login"
+                    className="bg-white text-black"
+                />
+            </form> */}
+            {/* user-select none은 사용자가 해당 요소의 텍스트나 내용을 선택할 수 없으며 드래그나 복사가 불가능하다. */}
+            {/* <details className="open:bg-indigo-50">
+                <summary className="select-none cursor-pointer">
+                    What is my fav. food.
+                </summary>
+                <span className="selection:bg-indigo-600">연어초밥</span>
+            </details> */}
+            {/* <ul className="list-decimal marker:text-teal-500">
+                <li>Hi</li>
+                <li>Hi</li>
+                <li>Hi</li>
+                <li>Hi</li>
+                <li>Hi</li>
+                <li>Hi</li>
+            </ul>
+            <div>
+                <input
+                    type="file"
+                    className="file:border-0 file:rounded-md 
+                        file:bg-purple-400 file:px-5 file:text-white
+                        file:transition-colors
+                        file:hover:text-purple-400
+                        file:hover:bg-white
+                    "
+                />
+                <p className="first-letter:text-7xl first-letter:hover:text-purple-400">
+                    Check the top-level render call using ul. See
+                    https://reactjs.org/link/warning-keys for more information.
+                </p>
+            </div> */}
         </div>
     );
 }
