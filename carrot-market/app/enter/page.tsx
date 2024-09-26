@@ -1,31 +1,69 @@
 "use client";
 import { useState } from "react";
 
-export default function Enter() {
-    const [method, setMethod] = useState<"email" | "phone">("email");
-    const onEmailClick = () => setMethod("email");
-    const onPhoneClick = () => setMethod("phone");
+const METHOD = {
+    EMAIL: "Email",
+    PHONE: "Phone",
+} as const;
+
+type MethodType = (typeof METHOD)[keyof typeof METHOD];
+
+function ButtonMethod({
+    children,
+    active,
+    onClick,
+}: {
+    children: React.ReactNode;
+    active: boolean;
+    onClick: () => void;
+}) {
     return (
-        <div>
-            <h3>Enter to Carrot</h3>
-            <div>
-                <div>
-                    <h5>Enter using:</h5>
-                    <div>
-                        <button onClick={onEmailClick}>Email</button>
-                        <button onClick={onPhoneClick}>Phone</button>
+        <button
+            className={`pb-4 font-medium ${
+                active && "text-orange-400 border-b-2 border-orange-500"
+            }`}
+            onClick={onClick}
+        >
+            {children}
+        </button>
+    );
+}
+
+export default function Enter() {
+    const [method, setMethod] = useState<MethodType>(METHOD.EMAIL);
+
+    return (
+        <div className="mt-16">
+            <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+            <div className="mt-16">
+                <div className="flex flex-col items-center">
+                    <h5 className="text-sm text-gray-500 font-medium">
+                        Enter using:
+                    </h5>
+                    <div className="grid grid-cols-2 mt-8 border-b w-full border-transparent">
+                        {Object.values(METHOD).map((value) => (
+                            <button
+                                className={`pb-4 font-medium ${
+                                    method === value &&
+                                    "text-orange-400 border-b-2 border-orange-500"
+                                }`}
+                                onClick={() => setMethod(value)}
+                            >
+                                {value}
+                            </button>
+                        ))}
                     </div>
                 </div>
                 <form>
                     <label>
-                        {method === "email" ? "Email address" : null}
-                        {method === "phone" ? "Phone number" : null}
+                        {method === "Email" ? "Email address" : null}
+                        {method === "Phone" ? "Phone number" : null}
                     </label>
                     <div>
-                        {method === "email" ? (
-                            <input type="email" required />
+                        {method === "Email" ? (
+                            <input type="Email" required />
                         ) : null}
-                        {method === "phone" ? (
+                        {method === "Phone" ? (
                             <div>
                                 <span>+82</span>
                                 <input type="number" required />
@@ -33,8 +71,8 @@ export default function Enter() {
                         ) : null}
                     </div>
                     <button>
-                        {method === "email" ? "Get login link" : null}
-                        {method === "phone" ? "Get one-time password" : null}
+                        {method === "Email" ? "Get login link" : null}
+                        {method === "Phone" ? "Get one-time password" : null}
                     </button>
                 </form>
                 <div>
