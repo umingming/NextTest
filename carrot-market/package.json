@@ -10,6 +10,7 @@
         "format:fix": "prettier --write --ignore-path .gitignore ."
     },
     "dependencies": {
+        "@tailwindcss/forms": "^0.5.9",
         "eslint-config-airbnb": "^19.0.4",
         "next": "14.2.12",
         "react": "^18",
