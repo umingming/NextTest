@@ -29,6 +29,18 @@
             "warn",
             { "extensions": [".ts", ".tsx"] }
         ],
-        "no-useless-catch": "off" // 불필요한 catch 못쓰게 하는 기능 끔
+        "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔,
+        "react/jsx-sort-props": [
+            "error",
+            {
+                "reservedFirst": ["key", "ref"],
+                "callbacksLast": true,
+                "shorthandFirst": false,
+                "shorthandLast": true,
+                "ignoreCase": true,
+                "noSortAlphabetically": false
+            }
+        ],
+        "prettier/prettier": ["error"] // Prettier가 포매팅 규칙을 강제하도록 함
     }
 }
