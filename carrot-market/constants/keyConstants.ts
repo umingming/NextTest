@@ -1,4 +1,4 @@
-export const ROUTE_KEY = {
+export const MENU_KEY = {
     PATH: "path",
     TITLE: "title",
     ICON: "icon",

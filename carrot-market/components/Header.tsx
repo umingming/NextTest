@@ -1,20 +1,17 @@
 "use client";
 
-import { ROUTE_CONFIG_MAP } from "@/constants/uiConstants";
-import { useRouteHandler } from "@/hooks/useRouteHandler";
-import { useEffect, useState } from "react";
+import { MENU_CONFIG_MAP } from "@/constants/uiConstants";
+import { useMenuHandler } from "@/hooks/useMenuHandler";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Header() {
-    const { currentPath, getMainPath } = useRouteHandler();
+    const { menuPath, checkMenuPath } = useMenuHandler();
 
-    const formatTitle = (): string => {
-        return ROUTE_CONFIG_MAP[getMainPath()];
-    };
-    const [title, setTitle] = useState(formatTitle());
+    if (!checkMenuPath()) {
+        return null;
+    }
 
-    useEffect(() => {
-        setTitle(formatTitle());
-    }, [currentPath]);
+    const title = useMemo(() => MENU_CONFIG_MAP[menuPath], [menuPath]);
 
     return (
         <div className="fixed top-0 flex w-full items-center justify-center border-b bg-white py-4 text-lg font-medium text-gray-700">

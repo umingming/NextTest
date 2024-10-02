@@ -1,6 +1,6 @@
-import { ROUTE_KEY as KEY } from "@/constants/keyConstants";
+import { MENU_KEY as KEY } from "@/constants/keyConstants";
 
-export interface RouteConfig {
+export interface MenuConfig {
     [KEY.PATH]: string;
     [KEY.TITLE]: string;
     [KEY.ICON]: string;
