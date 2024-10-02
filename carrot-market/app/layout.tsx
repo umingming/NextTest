@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+import NavBar from "@/components/NavBar";
 import "./globals.css";
 
 export default function RootLayout({
@@ -7,7 +9,13 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body>{children}</body>
+            <body>
+                <Header />
+                <div className="mt-16 h-[calc(100vh-150px)] overflow-y-auto">
+                    <div className="mx-auto w-full max-w-xl">{children}</div>
+                </div>
+                <NavBar />
+            </body>
         </html>
     );
 }
