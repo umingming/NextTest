@@ -12,7 +12,9 @@ export default function RootLayout({
             <body>
                 <Header />
                 <div className="mt-16 h-[calc(100vh-150px)] overflow-y-auto">
-                    <div className="mx-auto w-full max-w-xl">{children}</div>
+                    <div className="mx-auto w-full max-w-xl py-5">
+                        {children}
+                    </div>
                 </div>
                 <NavBar />
             </body>

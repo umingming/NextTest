@@ -1,6 +1,6 @@
 export default function Live() {
     return (
-        <div className="space-y-2 divide-y-2 px-4 py-10">
+        <div className="space-y-2 divide-y-2 px-4">
             {[1, 2, 3, 4, 5].map((_, i) => (
                 <div key={i} className="pt-4">
                     <div className="aspect-video w-full rounded-md bg-slate-300 shadow-sm" />

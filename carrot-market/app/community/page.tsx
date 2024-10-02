@@ -1,6 +1,6 @@
 export default function Community() {
     return (
-        <div className="space-y-8 px-4 py-16">
+        <div className="space-y-8 px-4">
             {[1, 2, 3, 4, 5, 6].map((_, i) => (
                 <div
                     key={i}
