@@ -2,7 +2,7 @@
 
 import { MENU_CONFIG_MAP } from "@/constants/uiConstants";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export function useMenuHandler() {
     const currentPath = usePathname();
