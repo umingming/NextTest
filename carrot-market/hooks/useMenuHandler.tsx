@@ -21,5 +21,15 @@ export function useMenuHandler() {
         return Object.keys(MENU_CONFIG_MAP).includes(menuPath);
     }
 
-    return { currentPath, menuPath, matchMenuPath, checkMenuPath };
+    function checkDetailPath(): boolean {
+        return checkMenuPath() && currentPath !== menuPath;
+    }
+
+    return {
+        currentPath,
+        menuPath,
+        matchMenuPath,
+        checkMenuPath,
+        checkDetailPath,
+    };
 }

@@ -15,7 +15,7 @@ export default function NavBar() {
     return (
         <nav className="fixed bottom-0 flex w-full items-center justify-between border-t bg-white px-10 py-3">
             {MENU_CONFIGS.map((config) => (
-                <Link href={config[MENU_KEY.PATH]}>
+                <Link key={config.path} href={config[MENU_KEY.PATH]}>
                     <div
                         className={`flex flex-col items-center space-y-2 ${matchMenuPath(config[MENU_KEY.PATH]) ? "font-semibold text-orange-500" : "text-gray-800"}`}
                     >
