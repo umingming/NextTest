@@ -1,5 +1,7 @@
+import { IconKey } from "@/constants/keyConstants";
+
 export interface ButtonProps {
     label?: string;
-    icon?: string;
+    iconKey?: IconKey;
     onClick?: () => void;
 }

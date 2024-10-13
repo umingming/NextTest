@@ -1,3 +1,5 @@
+import ButtonCreate from "@/components/common/button/ButtonCreate";
+
 export default function Home() {
     return (
         <div className="flex flex-col space-y-5">
@@ -56,23 +58,7 @@ export default function Home() {
                     </div>
                 </div>
             ))}
-            <button className="fixed bottom-24 right-5 cursor-pointer rounded-full bg-orange-400 p-3 text-white shadow-xl transition-colors hover:bg-orange-500">
-                <svg
-                    aria-hidden="true"
-                    className="h-6 w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                    />
-                </svg>
-            </button>
+            <ButtonCreate />
         </div>
     );
 }

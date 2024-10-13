@@ -1,10 +1,14 @@
 "use client";
 
+import { ICON_KEY } from "@/constants/keyConstants";
+import { ICON } from "@/constants/uiConstants";
 import { useMenuHandler } from "@/hooks/useMenuHandler";
 import { ButtonProps } from "@/types/button";
 import { useRouter } from "next/navigation";
 
-export default function ButtonCreate({ icon }: ButtonProps) {
+export default function ButtonCreate({
+    iconKey = ICON_KEY.CREATE,
+}: ButtonProps) {
     const router = useRouter();
     const { menuPath } = useMenuHandler();
 
@@ -24,7 +28,7 @@ export default function ButtonCreate({ icon }: ButtonProps) {
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    d={icon}
+                    d={ICON[iconKey]}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
