@@ -1,10 +1,15 @@
 export const ICON_KEY = {
+    CART: "cart",
     CHAT: "chat",
     COMMUNITY: "community",
+    CURRENCY: "currency",
     CREATE: "create",
     HOME: "home",
+    LIKE: "like",
     LIVE: "live",
     PROFILE: "profile",
+    SHOP: "shop",
+    STAR: "star",
     WRITE: "write",
 } as const;
 

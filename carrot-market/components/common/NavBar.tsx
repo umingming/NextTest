@@ -1,9 +1,11 @@
 "use client";
 
 import { MENU_KEY } from "@/constants/keyConstants";
+import { TEXT } from "@/constants/styleConstants";
 import { MENU_CONFIGS } from "@/constants/uiConstants";
 import { useMenuHandler } from "@/hooks/useMenuHandler";
 import Link from "next/link";
+import IconBase from "./icon/IconBase";
 
 export default function NavBar() {
     const { checkMenuPath, matchMenuPath } = useMenuHandler();
@@ -17,22 +19,9 @@ export default function NavBar() {
             {MENU_CONFIGS.map((config) => (
                 <Link key={config.path} href={config[MENU_KEY.PATH]}>
                     <div
-                        className={`flex flex-col items-center space-y-2 ${matchMenuPath(config[MENU_KEY.PATH]) ? "font-semibold text-orange-500" : "text-gray-800"}`}
+                        className={`flex flex-col items-center space-y-2 ${matchMenuPath(config[MENU_KEY.PATH]) ? `font-semibold ${TEXT.COLOR.PRIMARY}` : TEXT.COLOR.DEFAULT}`}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="h-6 w-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d={config[MENU_KEY.ICON]}
-                            />
-                        </svg>
+                        <IconBase iconKey={config[MENU_KEY.ICON]} />
                         <span>{config[MENU_KEY.TITLE]}</span>
                     </div>
                 </Link>

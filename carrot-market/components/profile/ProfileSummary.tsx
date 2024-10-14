@@ -1,3 +1,5 @@
+import { TEXT } from "@/constants/styleConstants";
+
 export default function ProfileSummary({
     children,
     isLarge = false,
@@ -6,8 +8,8 @@ export default function ProfileSummary({
     isLarge?: boolean;
 }>) {
     const imagePx = isLarge ? "14" : "12";
-    const nameFontSize = isLarge ? "text-base" : "text-sm";
-    const nameColor = isLarge ? "text-gray-900" : "text-gray-700";
+    const nameFontSize = isLarge ? TEXT.SIZE.BASE : TEXT.SIZE.SMALL;
+    const nameColor = isLarge ? TEXT.COLOR.DARK : TEXT.COLOR.DEFAULT;
 
     return (
         <div className="flex cursor-pointer items-center space-x-3 py-3">
