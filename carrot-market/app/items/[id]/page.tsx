@@ -1,20 +1,20 @@
+import CardProfile from "@/components/common/card/CardProfile";
+import IconBase from "@/components/common/icon/IconBase";
+import { ICON_KEY } from "@/constants/keyConstants";
+
 export default function Items() {
     return (
         <div className="px-4 py-10">
             <div className="mb-8">
                 <div className="h-96 bg-slate-300" />
-                <div className="flex cursor-pointer items-center space-x-3 border-b border-t py-3">
-                    <div className="h-12 w-12 rounded-full bg-slate-300" />
-                    <div>
-                        <p className="text-sm font-medium text-gray-700">
-                            Steve Jebs
-                        </p>
+                <div className="border-b pl-1">
+                    <CardProfile>
                         <p className="text-xs font-medium text-gray-500">
                             View profile &rarr;
                         </p>
-                    </div>
+                    </CardProfile>
                 </div>
-                <div className="mt-5">
+                <div className="mt-4">
                     <h1 className="text-3xl font-bold text-gray-900">
                         Galaxy S50
                     </h1>
@@ -36,21 +36,7 @@ export default function Items() {
                             Talk to seller
                         </button>
                         <button className="flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
-                            <svg
-                                aria-hidden="true"
-                                className="h-6 w-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                />
-                            </svg>
+                            <IconBase iconKey={ICON_KEY.LIKE} />
                         </button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import ButtonBase from "@/components/common/button/ButtonBase";
+import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
-import ProfileSummary from "@/components/profile/ProfileSummary";
 import { ICON_KEY } from "@/constants/keyConstants";
 import { TEXT } from "@/constants/styleConstants";
 
@@ -9,11 +9,11 @@ export default function Profile() {
 
     return (
         <div className="px-4">
-            <ProfileSummary isLarge={true}>
+            <CardProfile isLarge={true}>
                 <span className="text-sm text-gray-700">
                     Edit profile &rarr;
                 </span>
-            </ProfileSummary>
+            </CardProfile>
             <div className="mt-8 flex justify-around">
                 <div className="flex flex-col items-center">
                     <ButtonBase iconKey={ICON_KEY.CURRENCY} />
@@ -35,7 +35,7 @@ export default function Profile() {
                 </div>
             </div>
             <div className="mt-10">
-                <ProfileSummary>
+                <CardProfile>
                     <div className="relative -left-0.5 flex">
                         {[...Array(5)].map((_, i) => (
                             <IconBase
@@ -51,7 +51,7 @@ export default function Profile() {
                             />
                         ))}
                     </div>
-                </ProfileSummary>
+                </CardProfile>
                 <div className="mt-1 text-sm text-gray-600">
                     <p>
                         Normally, both your asses would be dead as fucking fried

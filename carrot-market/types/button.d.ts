@@ -1,6 +1,6 @@
 import { IconKey } from "@/constants/keyConstants";
 
 export interface ButtonProps {
-    iconKey: IconKey;
+    iconKey?: IconKey;
     onClick?: () => void;
 }

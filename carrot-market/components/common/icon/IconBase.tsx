@@ -7,12 +7,14 @@ export default function IconBase({
     iconKey,
     size = 6,
     color,
+    strokeWidth = 2,
     isFill = false,
 }: Readonly<{
     iconKey: IconKey;
     size?: number;
     color?: string;
     isFill?: boolean;
+    strokeWidth?: number;
 }>) {
     return (
         <svg
@@ -27,7 +29,7 @@ export default function IconBase({
                 d={ICON[iconKey]}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth={strokeWidth}
             />
         </svg>
     );

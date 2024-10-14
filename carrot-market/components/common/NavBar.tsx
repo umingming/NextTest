@@ -21,7 +21,10 @@ export default function NavBar() {
                     <div
                         className={`flex flex-col items-center space-y-2 ${matchMenuPath(config[MENU_KEY.PATH]) ? `font-semibold ${TEXT.COLOR.PRIMARY}` : TEXT.COLOR.DEFAULT}`}
                     >
-                        <IconBase iconKey={config[MENU_KEY.ICON]} />
+                        <IconBase
+                            iconKey={config[MENU_KEY.ICON]}
+                            strokeWidth={1.5}
+                        />
                         <span>{config[MENU_KEY.TITLE]}</span>
                     </div>
                 </Link>

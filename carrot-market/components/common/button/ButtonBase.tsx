@@ -9,7 +9,7 @@ export default function ButtonBase({ iconKey, onClick }: ButtonProps) {
             className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-orange-500 text-white transition-colors hover:bg-orange-600"
             onClick={onClick}
         >
-            <IconBase iconKey={iconKey} />
+            {iconKey && <IconBase iconKey={iconKey} />}
         </button>
     );
 }

@@ -1,4 +1,4 @@
-export default function Write() {
+export default function Create() {
     return (
         <form className="px-4 py-10">
             <textarea
