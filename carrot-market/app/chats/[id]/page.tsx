@@ -110,7 +110,7 @@ export default function ChatDetail() {
                 </div>
             </div>
             {/* left-0, right-0 = inset-x-0 = 중앙 정렬 */}
-            <div className="fixed inset-x-0 bottom-2 mx-auto w-full max-w-md">
+            <div className="fixed inset-x-0 bottom-24 mx-auto w-full max-w-md">
                 <div className="relative flex items-center">
                     <input
                         type="text"

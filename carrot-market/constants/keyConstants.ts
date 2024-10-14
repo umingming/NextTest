@@ -6,6 +6,7 @@ export const ICON_KEY = {
     CURRENCY: "currency",
     CREATE: "create",
     HOME: "home",
+    IMAGE: "image",
     LIKE: "like",
     LIVE: "live",
     QUESTION: "question",

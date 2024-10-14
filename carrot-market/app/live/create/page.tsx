@@ -1,3 +1,5 @@
+import InputBox from "@/components/common/input/InputBox";
+
 export default function LiveCreate() {
     return (
         <div className="space-y-5 px-4 py-10">
@@ -40,17 +42,7 @@ export default function LiveCreate() {
                 </div>
             </div>
             <div>
-                <label
-                    htmlFor="description"
-                    className="mb-1 block text-sm font-medium text-gray-700"
-                >
-                    Description
-                </label>
-                <textarea
-                    id="description"
-                    className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
-                    rows={4}
-                />
+                <InputBox label="Description" />
             </div>
             <button className="w-full rounded-md border border-transparent bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
                 Go live
