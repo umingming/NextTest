@@ -2,7 +2,7 @@ import IconBase from "@/components/common/icon/IconBase";
 import InputBox from "@/components/common/input/InputBox";
 import { ICON_KEY } from "@/constants/keyConstants";
 
-export default function Upload() {
+export default function ItemCreate() {
     return (
         <div className="space-y-5 px-4 py-16">
             <div>

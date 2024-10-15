@@ -1,14 +1,21 @@
+"use client";
+
 import ButtonCreate from "@/components/common/button/ButtonCreate";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
+import { useRouter } from "next/navigation";
 
 export default function Community() {
+    const router = useRouter();
+    const goDetail = () => router.push("/community/1");
+
     return (
         <div className="space-y-8 px-4">
             {[1, 2, 3, 4, 5, 6].map((_, i) => (
                 <div
-                    key={i}
+                    key={`community-${i}`}
                     className="flex cursor-pointer flex-col items-start"
+                    onClick={goDetail}
                 >
                     <span className="text-gray-80 flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                         동네질문

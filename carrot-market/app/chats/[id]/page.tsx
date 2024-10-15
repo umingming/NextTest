@@ -1,6 +1,6 @@
 export default function ChatDetail() {
     return (
-        <div className="mb-8 space-y-4 px-4 py-10">
+        <div className="mb-8 space-y-4 px-4 pb-5">
             <div className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-full bg-slate-400" />
                 <div className="w-1/2 rounded-md border border-gray-300 p-2 text-sm text-gray-700">

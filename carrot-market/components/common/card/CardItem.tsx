@@ -1,10 +1,16 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
 
 export default function CardItem() {
+    const router = useRouter();
+    const goItem = () => router.push("/items/1");
+
     return (
         <div className="flex cursor-pointer justify-between border-b px-4 pb-5">
-            <div className="flex space-x-4">
+            <div className="flex space-x-4" onClick={goItem}>
                 <div className="h-20 w-20 rounded-md bg-gray-400" />
                 <div className="flex flex-col pt-2">
                     <h3 className="text-sm font-medium text-gray-900">

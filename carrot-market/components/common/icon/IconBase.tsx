@@ -16,10 +16,12 @@ export default function IconBase({
     isFill?: boolean;
     strokeWidth?: number;
 }>) {
+    const iconStyle = `h-${size} w-${size} ${color}`;
+
     return (
         <svg
             aria-hidden="true"
-            className={`h-${size} w-${size} ${color}`}
+            className={iconStyle}
             fill={isFill ? "currentColor" : "none"}
             stroke="currentColor"
             viewBox="0 0 24 24"
