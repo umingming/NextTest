@@ -5,7 +5,7 @@ import { useMenuHandler } from "@/hooks/useMenuHandler";
 import { ButtonProps } from "@/types/button";
 import { useRouter } from "next/navigation";
 
-import ButtonBase from "./ButtonBase";
+import ButtonBase from "./ButtonIcon";
 
 export default function ButtonCreate({
     iconKey = ICON_KEY.CREATE,

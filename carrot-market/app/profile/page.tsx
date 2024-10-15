@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonBase from "@/components/common/button/ButtonBase";
+import ButtonBase from "@/components/common/button/ButtonIcon";
 import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";

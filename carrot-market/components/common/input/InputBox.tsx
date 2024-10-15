@@ -1,3 +1,7 @@
+import InputBase from "./InputBase";
+
+let index = 0;
+
 export default function InputBox({
     label,
     placeholder,
@@ -5,22 +9,16 @@ export default function InputBox({
     label?: string;
     placeholder?: string;
 }) {
+    const id = `input-box-${++index}`;
+
     return (
-        <>
-            {label && (
-                <label
-                    htmlFor={label}
-                    className="mb-1 block text-sm font-medium text-gray-700"
-                >
-                    {label}
-                </label>
-            )}
+        <InputBase id={id} label={label}>
             <textarea
-                id={label}
+                id={id}
                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
                 rows={4}
                 placeholder={placeholder}
             />
-        </>
+        </InputBase>
     );
 }

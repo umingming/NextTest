@@ -1,10 +1,11 @@
+import ButtonText from "@/components/common/button/ButtonText";
 import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
 
 export default function Items() {
     return (
-        <div className="px-4 py-10">
+        <div className="px-4">
             <div className="mb-8">
                 <div className="h-96 bg-slate-300" />
                 <div className="border-b pl-1">
@@ -32,9 +33,7 @@ export default function Items() {
                         get shot. You understand?
                     </p>
                     <div className="flex items-center justify-between space-x-2">
-                        <button className="flex-1 rounded-md bg-orange-500 py-3 font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-                            Talk to seller
-                        </button>
+                        <ButtonText label="Talk to seller" />
                         <button className="flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                             <IconBase iconKey={ICON_KEY.LIKE} />
                         </button>
