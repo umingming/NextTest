@@ -15,16 +15,17 @@ export default function Header() {
     const title = useMemo(() => MENU_CONFIG_MAP[menuPath], [menuPath]);
 
     const router = useRouter();
-    const goBack = () => router.push(menuPath);
+    const goBack = () => router.back();
 
     return (
-        <div className="fixed top-0 flex w-full items-center justify-center border-b bg-white py-4 text-lg font-medium text-gray-700">
-            {checkDetailPath() && (
+        <div className="fixed top-0 flex h-14 w-full items-center justify-center border-b bg-white text-lg font-medium text-gray-700">
+            {checkDetailPath() ? (
                 <button className="absolute left-5" onClick={goBack}>
                     &larr;
                 </button>
+            ) : (
+                <span>{title}</span>
             )}
-            <span>{title}</span>
         </div>
     );
 }
