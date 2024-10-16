@@ -5,6 +5,7 @@ import IconBase from "@/components/common/icon/IconBase";
 import InputPhone from "@/components/common/input/InputPhone";
 import InputText from "@/components/common/input/InputText";
 import { ICON_KEY } from "@/constants/keyConstants";
+import useMutation from "@/libs/client/hooks/useMutation";
 import { useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 
@@ -21,6 +22,7 @@ interface EnterForm {
 type MethodType = (typeof METHOD)[keyof typeof METHOD];
 
 export default function Enter() {
+    const [enter, { loading, data, error }] = useMutation("/api/users/enter");
     const { register, handleSubmit, reset } = useForm<EnterForm>();
     const [method, setMethod] = useState<MethodType>(METHOD.EMAIL);
 
@@ -30,8 +32,10 @@ export default function Enter() {
         setMethod(newMethod);
     };
 
-    const onValid = (data: EnterForm) => console.log(data);
+    const onValid = (data: EnterForm) => enter(data);
     const onInvalid = (errors: FieldErrors) => console.log(errors);
+
+    console.log(loading, data, error);
 
     return (
         <div className="mt-16">

@@ -1,7 +1,7 @@
 "use client";
 
 import { MENU_CONFIG_MAP } from "@/constants/uiConstants";
-import { useMenuHandler } from "@/hooks/useMenuHandler";
+import { useMenuHandler } from "@/libs/client/hooks/useMenuHandler";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 

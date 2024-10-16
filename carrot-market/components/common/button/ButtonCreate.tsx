@@ -1,7 +1,7 @@
 "use client";
 
 import { ICON_KEY } from "@/constants/keyConstants";
-import { useMenuHandler } from "@/hooks/useMenuHandler";
+import { useMenuHandler } from "@/libs/client/hooks/useMenuHandler";
 import { ButtonProps } from "@/types/button";
 import { useRouter } from "next/navigation";
 

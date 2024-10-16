@@ -3,7 +3,7 @@
 import { MENU_KEY } from "@/constants/keyConstants";
 import { TEXT } from "@/constants/styleConstants";
 import { MENU_CONFIGS } from "@/constants/uiConstants";
-import { useMenuHandler } from "@/hooks/useMenuHandler";
+import { useMenuHandler } from "@/libs/client/hooks/useMenuHandler";
 import Link from "next/link";
 import IconBase from "./icon/IconBase";
 
