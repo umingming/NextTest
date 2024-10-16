@@ -1,9 +1,9 @@
+import { InputProps } from "@/types/input";
+import { useId } from "react";
 import InputBase from "./InputBase";
 
-let index = 0;
-
-export default function InputPhone() {
-    const id = `input-phone-${++index}`;
+export default function InputPhone({ register }: InputProps) {
+    const id = useId();
 
     return (
         <InputBase id={id} label="Phone number">
@@ -13,6 +13,7 @@ export default function InputPhone() {
                 </span>
                 <input
                     id={id}
+                    {...register}
                     className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-4 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
                     type="number"
                     required

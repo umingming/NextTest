@@ -1,15 +1,9 @@
+import { InputProps } from "@/types/input";
+import { useId } from "react";
 import InputBase from "./InputBase";
 
-let index = 0;
-
-export default function InputBox({
-    label,
-    placeholder,
-}: {
-    label?: string;
-    placeholder?: string;
-}) {
-    const id = `input-box-${++index}`;
+export default function InputBox({ label, placeholder }: InputProps) {
+    const id = useId();
 
     return (
         <InputBase id={id} label={label}>

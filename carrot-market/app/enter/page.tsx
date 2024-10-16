@@ -6,18 +6,32 @@ import InputPhone from "@/components/common/input/InputPhone";
 import InputText from "@/components/common/input/InputText";
 import { ICON_KEY } from "@/constants/keyConstants";
 import { useState } from "react";
+import { FieldErrors, useForm } from "react-hook-form";
 
 const METHOD = {
-    EMAIL: "Email",
-    PHONE: "Phone",
+    EMAIL: "email",
+    PHONE: "phone",
 } as const;
+
+interface EnterForm {
+    email?: string;
+    phone?: string;
+}
 
 type MethodType = (typeof METHOD)[keyof typeof METHOD];
 
 export default function Enter() {
+    const { register, handleSubmit, reset } = useForm<EnterForm>();
     const [method, setMethod] = useState<MethodType>(METHOD.EMAIL);
 
     const isMethodEmail = () => method === METHOD.EMAIL;
+    const onMethodClick = (newMethod: MethodType) => {
+        reset();
+        setMethod(newMethod);
+    };
+
+    const onValid = (data: EnterForm) => console.log(data);
+    const onInvalid = (errors: FieldErrors) => console.log(errors);
 
     return (
         <div className="mt-16">
@@ -35,22 +49,29 @@ export default function Enter() {
                                     method === value &&
                                     "border-b-2 border-orange-500 text-orange-400"
                                 }`}
-                                onClick={() => setMethod(value)}
+                                onClick={() => onMethodClick(value)}
                             >
-                                {value}
+                                {value.toString()}
                             </button>
                         ))}
                     </div>
                 </div>
-                <form className="mt-8 flex flex-col">
+                <form
+                    className="mt-8 flex flex-col"
+                    onSubmit={handleSubmit(onValid, onInvalid)}
+                >
                     {isMethodEmail() ? (
                         <>
-                            <InputText label="Email address" />
+                            <InputText
+                                register={register(METHOD.EMAIL)}
+                                type="email"
+                                label="Email address"
+                            />
                             <ButtonText label="Get login link" />
                         </>
                     ) : (
                         <>
-                            <InputPhone />
+                            <InputPhone register={register(METHOD.PHONE)} />
                             <ButtonText label="Get one-time password" />
                         </>
                     )}
