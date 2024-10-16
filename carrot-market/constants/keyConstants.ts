@@ -5,6 +5,7 @@ export const ICON_KEY = {
     COMMUNITY: "community",
     CURRENCY: "currency",
     CREATE: "create",
+    GITHUB: "github",
     HOME: "home",
     IMAGE: "image",
     LIKE: "like",
@@ -13,6 +14,7 @@ export const ICON_KEY = {
     PROFILE: "profile",
     SHOP: "shop",
     STAR: "star",
+    TWITTER: "twitter",
     WRITE: "write",
 } as const;
 
