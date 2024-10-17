@@ -20,7 +20,7 @@ model User {
   email     String    @unique
   password  String?
   phone     Int?
-  name      String
+  name      String?
   image     String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
