@@ -16,15 +16,29 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  email     String    @unique
   password  String?
   phone     Int?
   name      String
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  image     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   tokens    Token[]
+  accounts  Account[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  provider          String
+  providerAccountId String
+  user              User    @relation(fields: [userId], references: [id])
+  accessToken       String?
+  tokenType         String?
+  scope             String?
+
+  @@unique([provider, providerAccountId])
 }
 
 model Token {
