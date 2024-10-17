@@ -12,7 +12,7 @@ export default function InputText({
 
     return (
         <InputBase id={id} label={label}>
-            <div className="relative flex items-center rounded-md shadow-sm">
+            <div className="relative mb-4 flex items-center rounded-md shadow-sm">
                 <input
                     id={id}
                     {...register}

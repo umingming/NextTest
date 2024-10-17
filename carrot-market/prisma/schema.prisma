@@ -17,8 +17,9 @@ datasource db {
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  phone     Int?
   email     String   @unique
+  password  String?
+  phone     Int?
   name      String
   avatar    String?
   createdAt DateTime @default(now())

@@ -14,7 +14,7 @@ export default function useMutation(url: string): UseMutationResult {
     const [data, setData] = useState<undefined | any>(undefined);
     const [error, setError] = useState<undefined | any>(undefined);
 
-    function mutation(data: any): void {
+    function mutation(body: any): void {
         setLoading(true);
 
         fetch(url, {
@@ -23,7 +23,7 @@ export default function useMutation(url: string): UseMutationResult {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         })
             .then((response) => response.json())
             .then(setData)

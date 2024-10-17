@@ -6,27 +6,24 @@ async function handler(
     req: NextApiRequest,
     res: NextApiResponse<ResponseType>,
 ) {
-    const { phone, email } = req.body;
+    const { email, password } = req.body;
+
+    const user = await client.user.findUnique({ where: { email, password } });
+    if (!user) {
+        return res.json({ ok: false });
+    }
     const payload = `${Date.now()}.${Math.floor(Math.random() * 1000)}`;
 
     const token = await client.token.create({
         data: {
             payload,
             user: {
-                connectOrCreate: {
-                    where: { email },
-                    create: {
-                        name: "Anonymous",
-                        email,
-                    },
-                },
+                connect: { email, password },
             },
         },
     });
 
-    return res.json({
-        ok: true,
-    });
+    return res.json({ ok: true });
 }
 
 export default withHandler("POST", handler);
