@@ -1,6 +1,7 @@
 import client from "@/libs/server/client";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from "bcrypt";
 
 async function handler(
     req: NextApiRequest,
@@ -12,22 +13,15 @@ async function handler(
     if (user) {
         return res.json({ ok: false });
     }
-    const payload = `${Date.now()}.${Math.floor(Math.random() * 1000)}`;
 
-    const token = await client.token.create({
+    // 암호화
+    const hash = await bcrypt.hash(password, 10);
+    await client.user.create({
         data: {
-            payload,
-            user: {
-                connectOrCreate: {
-                    where: { email },
-                    create: {
-                        email,
-                        password,
-                        name,
-                        phone: +phone,
-                    },
-                },
-            },
+            email,
+            name,
+            phone: +phone,
+            password: hash,
         },
     });
 

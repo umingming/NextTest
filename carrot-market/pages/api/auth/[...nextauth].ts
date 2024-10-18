@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User as PrismaUser } from "@prisma/client";
 import NextAuth, { Account, User } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -12,6 +12,32 @@ export default NextAuth({
         GithubProvider({
             clientId: "Ov23li7LOAF55VT9LogL",
             clientSecret: "0f34b5478c89e45ac3890707428dee4f43f3f6d2",
+        }),
+
+        CredentialsProvider({
+            name: "credentials",
+            credentials: {
+                email: { label: "email", type: "text" },
+                password: { label: "password", type: "password" },
+            },
+
+            async authorize({ email, password }: any) {
+                const user = await prisma.user.findUnique({
+                    where: { email },
+                });
+
+                if (!user || !user.password) {
+                    console.log("해당 이메일은 없음");
+                    return null;
+                }
+
+                const pwcheck = await bcrypt.compare(password, user.password);
+                if (!pwcheck) {
+                    console.log("비번틀림");
+                    return null;
+                }
+                return user;
+            },
         }),
     ],
     pages: {
@@ -33,6 +59,16 @@ export default NextAuth({
             if (!account || !email) {
                 return false;
             }
+
+            const existingUser = await prisma.user.upsert({
+                where: { email },
+                create: {
+                    email,
+                    name,
+                    image,
+                },
+                update: {},
+            });
 
             const {
                 provider,
@@ -58,17 +94,21 @@ export default NextAuth({
                     provider,
                     providerAccountId,
                     ...tokenConfig,
-                    user: {
-                        create: {
-                            name,
-                            email,
-                            image,
-                        },
-                    },
+                    user: { connect: { id: existingUser.id } },
                 },
                 update: tokenConfig,
             });
             return true;
+        },
+        async jwt({ token, user }) {
+            if (user) {
+                const { email, name, image, phone } = user as PrismaUser;
+                token.user = { email, name, image, phone };
+            }
+            return token;
+        },
+        async session({ session, token: { user } }) {
+            return Object.assign(session, { user });
         },
     },
 

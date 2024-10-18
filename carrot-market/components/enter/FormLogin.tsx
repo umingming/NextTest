@@ -6,7 +6,7 @@ import InputText from "@/components/common/input/InputText";
 import { ICON_KEY } from "@/constants/keyConstants";
 import useMutation from "@/libs/client/hooks/useMutation";
 import { FieldErrors, useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 interface LoginForm {
     email: string;
@@ -14,10 +14,16 @@ interface LoginForm {
 }
 
 export default function FormLogin() {
-    const [login] = useMutation("/api/auth/login");
     const { register, handleSubmit } = useForm<LoginForm>();
 
-    const onValid = (data: LoginForm) => login(data);
+    const onValid = async ({ email, password }: LoginForm) => {
+        const result = await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+        });
+        console.log(result);
+    };
     const onInvalid = (errors: FieldErrors) => console.log(errors);
 
     return (
