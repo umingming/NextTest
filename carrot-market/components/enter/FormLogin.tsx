@@ -40,7 +40,6 @@ export default function FormLogin() {
                     label="Password"
                 />
                 <ButtonText label="Login" />
-                <ButtonText label="Logout" onClick={() => signOut()} />
             </form>
             <div className="mt-10">
                 <div className="relative">

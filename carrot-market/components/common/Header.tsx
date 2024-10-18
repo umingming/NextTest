@@ -4,6 +4,7 @@ import { MENU_CONFIG_MAP } from "@/constants/uiConstants";
 import { useMenuHandler } from "@/libs/client/hooks/useMenuHandler";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
+import { signOut } from "next-auth/react";
 
 export default function Header() {
     const { menuPath, checkMenuPath, checkDetailPath } = useMenuHandler();
@@ -26,6 +27,12 @@ export default function Header() {
             ) : (
                 <span>{title}</span>
             )}
+            <button
+                className="absolute right-8 text-sm"
+                onClick={() => signOut()}
+            >
+                Logout
+            </button>
         </div>
     );
 }
