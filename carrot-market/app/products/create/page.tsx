@@ -7,6 +7,9 @@ import InputPrice from "@/components/common/input/InputPrice";
 import InputText from "@/components/common/input/InputText";
 import { ICON_KEY } from "@/constants/keyConstants";
 import useMutation from "@/libs/client/hooks/useMutation";
+import { Product } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface CreateProductForm {
@@ -16,10 +19,24 @@ interface CreateProductForm {
     image?: string;
 }
 
+interface CreateProductMutation {
+    ok: boolean;
+    product: Product;
+}
+
 export default function CreateProduct() {
     const { register, handleSubmit } = useForm<CreateProductForm>();
-    const [createProduct] = useMutation("/api/products");
+    const [createProduct, { data }] =
+        useMutation<CreateProductMutation>("/api/products");
+    const router = useRouter();
+
     const onValid = (data: CreateProductForm) => createProduct(data);
+    useEffect(() => {
+        if (data?.ok) {
+            const { id } = data.product;
+            router.push(`/products/${id}`);
+        }
+    }, [data]);
 
     return (
         <div className="space-y-5 px-4 py-4">

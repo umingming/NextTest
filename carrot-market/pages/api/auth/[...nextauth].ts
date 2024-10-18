@@ -102,8 +102,8 @@ export const authOptions: NextAuthOptions = {
         },
         async jwt({ token, user }) {
             if (user) {
-                const { email, name, image, phone } = user as PrismaUser;
-                token.user = { email, name, image, phone };
+                const { id, email, name, image, phone } = user as PrismaUser;
+                token.user = { id, email, name, image, phone };
             }
             return token;
         },
