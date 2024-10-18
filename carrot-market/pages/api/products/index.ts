@@ -3,27 +3,34 @@ import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-import { User as PrismaUser } from "@prisma/client";
+import { Product, User } from "@prisma/client";
 
 async function handler(
     req: NextApiRequest,
     res: NextApiResponse<ResponseType>,
 ) {
-    const { name, price, description } = req.body;
+    if (req.method === "GET") {
+        const products = await client.product.findMany({});
+        return res.json({ ok: true, products });
+    }
 
-    const session = await getServerSession(req, res, authOptions);
-    const { id } = session?.user as PrismaUser;
+    if (req.method === "POST") {
+        const { name, price, description } = req.body;
 
-    const product = await client.product.create({
-        data: {
-            name,
-            price: +price,
-            description,
-            user: { connect: { id } },
-        },
-    });
+        const session = await getServerSession(req, res, authOptions);
+        const { id } = session?.user as User;
 
-    return res.json({ ok: true, product });
+        const product = await client.product.create({
+            data: {
+                name,
+                price: +price,
+                description,
+                user: { connect: { id } },
+            },
+        });
+
+        return res.json({ ok: true, product });
+    }
 }
 
-export default withHandler("POST", handler);
+export default withHandler(["GET", "POST"], handler);

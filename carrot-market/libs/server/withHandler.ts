@@ -4,12 +4,14 @@ export interface ResponseType {
     [key: string]: any;
 }
 
+type Method = "GET" | "POST" | "DELETE";
+
 export default function withHandler(
-    method: "GET" | "POST" | "DELETE",
+    methods: Method[],
     handler: (req: NextApiRequest, res: NextApiResponse) => void,
 ) {
     return async function (req: NextApiRequest, res: NextApiResponse) {
-        if (req.method !== method) {
+        if (!methods.includes(req.method as Method)) {
             return res.status(405).end();
         }
 
@@ -19,6 +21,5 @@ export default function withHandler(
             console.log(error);
             return res.status(500).json({ error });
         }
-        res.json({ hello: true });
     };
 }

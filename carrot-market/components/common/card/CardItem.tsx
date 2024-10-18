@@ -3,8 +3,9 @@
 import { useRouter } from "next/navigation";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
+import { Product } from "@prisma/client";
 
-export default function CardItem() {
+export default function CardItem({ name, price, description }: Product) {
     const router = useRouter();
     const goItem = () => router.push("/products/1");
 
@@ -14,10 +15,12 @@ export default function CardItem() {
                 <div className="h-20 w-20 rounded-md bg-gray-400" />
                 <div className="flex flex-col pt-2">
                     <h3 className="text-sm font-medium text-gray-900">
-                        New iPhone 14
+                        {name}
                     </h3>
-                    <span className="text-xs text-gray-500">Black</span>
-                    <span className="mt-1 font-medium text-gray-900">$95</span>
+                    <span className="text-xs text-gray-500">{description}</span>
+                    <span className="mt-1 font-medium text-gray-900">
+                        ${price}
+                    </span>
                 </div>
             </div>
             <div className="flex items-end justify-end space-x-1.5">
