@@ -1,7 +1,7 @@
 import ButtonCreate from "@/components/common/button/ButtonCreate";
 import CardItem from "@/components/common/card/CardItem";
 
-export default function Items() {
+export default function Products() {
     return (
         <div className="flex flex-col space-y-5">
             {[...Array(10)].map((_, i) => (

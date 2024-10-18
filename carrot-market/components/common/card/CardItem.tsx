@@ -6,7 +6,7 @@ import { ICON_KEY } from "@/constants/keyConstants";
 
 export default function CardItem() {
     const router = useRouter();
-    const goItem = () => router.push("/items/1");
+    const goItem = () => router.push("/products/1");
 
     return (
         <div className="flex cursor-pointer justify-between border-b px-4 pb-5">

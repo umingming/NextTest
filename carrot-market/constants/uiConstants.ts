@@ -38,7 +38,7 @@ export const ICON: Record<IconKey, string> = {
 
 export const MENU_CONFIGS: MenuConfig[] = [
     {
-        [MENU_KEY.PATH]: "/items",
+        [MENU_KEY.PATH]: "/products",
         [MENU_KEY.TITLE]: "홈",
         [MENU_KEY.ICON]: ICON_KEY.HOME,
     },

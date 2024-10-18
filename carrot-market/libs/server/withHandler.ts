@@ -4,10 +4,10 @@ export interface ResponseType {
     [key: string]: any;
 }
 
-export default function withHandler(
+export default async function withHandler(
     method: "GET" | "POST" | "DELETE",
     handler: (req: NextApiRequest, res: NextApiResponse) => void,
-) {
+): Promise<any> {
     return async function (req: NextApiRequest, res: NextApiResponse) {
         if (req.method !== method) {
             return res.status(405).end();
