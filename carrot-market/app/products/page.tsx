@@ -10,7 +10,7 @@ export default function Products() {
     const { data } = useSWR("/api/products", (url) =>
         fetch(url).then((response) => response.json()),
     );
-    const products = useMemo<Product[]>(() => data.products ?? [], [data]);
+    const products = useMemo<Product[]>(() => data?.products ?? [], [data]);
 
     return (
         <div className="flex flex-col space-y-5">

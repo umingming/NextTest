@@ -5,9 +5,9 @@ import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
 import { Product } from "@prisma/client";
 
-export default function CardItem({ name, price, description }: Product) {
+export default function CardItem({ id, name, price, description }: Product) {
     const router = useRouter();
-    const goItem = () => router.push("/products/1");
+    const goItem = () => router.push(`/products/${id}`);
 
     return (
         <div className="flex cursor-pointer justify-between border-b px-4 pb-5">
