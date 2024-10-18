@@ -2,6 +2,8 @@
 
 import FormJoin from "@/components/enter/FormJoin";
 import FormLogin from "@/components/enter/FormLogin";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const METHOD = {
@@ -13,6 +15,12 @@ type MethodType = (typeof METHOD)[keyof typeof METHOD];
 
 export default function Enter() {
     const [method, setMethod] = useState<MethodType>(METHOD.LOGIN);
+    const { data: session } = useSession();
+    const router = useRouter();
+
+    if (session) {
+        router.push("/");
+    }
 
     const isMethodLogin = () => method === METHOD.LOGIN;
 
@@ -38,7 +46,11 @@ export default function Enter() {
                         ))}
                     </div>
                 </div>
-                {isMethodLogin() ? <FormLogin /> : <FormJoin />}
+                {isMethodLogin() ? (
+                    <FormLogin />
+                ) : (
+                    <FormJoin afterJoin={() => setMethod(METHOD.LOGIN)} />
+                )}
             </div>
         </div>
     );

@@ -2,16 +2,20 @@
 
 import { useState } from "react";
 
+interface UseMutationData {
+    ok: boolean;
+    [key: string]: any;
+}
 interface UseMutationState {
     loading: boolean;
-    data?: object;
+    data?: UseMutationData;
     error?: object;
 }
 type UseMutationResult = [(data: any) => void, UseMutationState];
 
 export default function useMutation(url: string): UseMutationResult {
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState<undefined | any>(undefined);
+    const [data, setData] = useState<undefined | UseMutationData>(undefined);
     const [error, setError] = useState<undefined | any>(undefined);
 
     function mutation(body: any): void {

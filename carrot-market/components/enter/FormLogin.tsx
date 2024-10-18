@@ -4,7 +4,6 @@ import ButtonText from "@/components/common/button/ButtonText";
 import IconBase from "@/components/common/icon/IconBase";
 import InputText from "@/components/common/input/InputText";
 import { ICON_KEY } from "@/constants/keyConstants";
-import useMutation from "@/libs/client/hooks/useMutation";
 import { FieldErrors, useForm } from "react-hook-form";
 import { signIn, signOut } from "next-auth/react";
 
@@ -16,14 +15,12 @@ interface LoginForm {
 export default function FormLogin() {
     const { register, handleSubmit } = useForm<LoginForm>();
 
-    const onValid = async ({ email, password }: LoginForm) => {
-        const result = await signIn("credentials", {
+    const onValid = async ({ email, password }: LoginForm) =>
+        await signIn("credentials", {
             email,
             password,
             redirect: false,
         });
-        console.log(result);
-    };
     const onInvalid = (errors: FieldErrors) => console.log(errors);
 
     return (
@@ -43,6 +40,7 @@ export default function FormLogin() {
                     label="Password"
                 />
                 <ButtonText label="Login" />
+                <ButtonText label="Logout" onClick={() => signOut()} />
             </form>
             <div className="mt-10">
                 <div className="relative">
