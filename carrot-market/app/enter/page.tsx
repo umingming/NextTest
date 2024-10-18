@@ -4,7 +4,7 @@ import FormJoin from "@/components/enter/FormJoin";
 import FormLogin from "@/components/enter/FormLogin";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const METHOD = {
     LOGIN: "login",
@@ -18,9 +18,11 @@ export default function Enter() {
     const { data: session } = useSession();
     const router = useRouter();
 
-    if (session) {
-        router.push("/");
-    }
+    useEffect(() => {
+        if (session) {
+            router.push("/products");
+        }
+    });
 
     const isMethodLogin = () => method === METHOD.LOGIN;
 

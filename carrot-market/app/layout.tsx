@@ -4,6 +4,7 @@ import Header from "@/components/common/Header";
 import NavBar from "@/components/common/NavBar";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import "./globals.css";
 
 export default function RootLayout({
@@ -36,9 +37,11 @@ function Auth({
     const { data: session } = useSession();
     const router = useRouter();
 
-    if (!session) {
-        router.push("/enter");
-    }
+    useEffect(() => {
+        if (!session) {
+            router.push("/enter");
+        }
+    }, [session]);
 
     return <>{children}</>;
 }

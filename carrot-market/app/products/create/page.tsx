@@ -7,7 +7,7 @@ import { ICON_KEY } from "@/constants/keyConstants";
 
 export default function ItemCreate() {
     return (
-        <div className="space-y-5 px-4 py-16">
+        <div className="space-y-5 px-4 py-4">
             <div>
                 <label className="flex h-48 w-full items-center justify-center rounded-md border-2 border-dashed border-gray-300 py-6 text-gray-600 hover:border-orange-500 hover:text-orange-500">
                     <IconBase
