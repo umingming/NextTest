@@ -5,6 +5,7 @@ import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
 import { Product, User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
 
@@ -32,6 +33,8 @@ export default function ProductDetail({ params: { id } }: any) {
         () => data?.relatedProducts ?? ([] as Product[]),
         [data],
     );
+    const router = useRouter();
+    const goDetail = (id: string) => router.push(`/products/${id}`);
 
     return (
         <div className="px-4">
@@ -64,7 +67,10 @@ export default function ProductDetail({ params: { id } }: any) {
                 </h2>
                 <div className="mt-6 grid grid-cols-2 gap-4">
                     {relatedProducts.map((product) => (
-                        <div key={product.id}>
+                        <div
+                            key={product.id}
+                            onClick={() => goDetail(product.id)}
+                        >
                             <div className="mb-4 h-56 w-full bg-slate-300" />
                             <h3 className="-mb-1 text-gray-700">
                                 {product.name}
