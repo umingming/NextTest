@@ -16,6 +16,7 @@ interface ProductWithUser extends Product {
 interface ProductDetailResponse {
     ok: boolean;
     product: ProductWithUser;
+    relatedProducts: Product[];
 }
 
 export default function ProductDetail({ params: { id } }: any) {
@@ -25,6 +26,10 @@ export default function ProductDetail({ params: { id } }: any) {
     );
     const { name, description, price, user } = useMemo<ProductWithUser>(
         () => data?.product ?? ({} as ProductWithUser),
+        [data],
+    );
+    const relatedProducts = useMemo<Product[]>(
+        () => data?.relatedProducts ?? ([] as Product[]),
         [data],
     );
 
@@ -58,12 +63,14 @@ export default function ProductDetail({ params: { id } }: any) {
                     Similar items
                 </h2>
                 <div className="mt-6 grid grid-cols-2 gap-4">
-                    {[1, 2, 3, 4, 5, 6].map((_, i) => (
-                        <div key={`similar-item-${i}`}>
+                    {relatedProducts.map((product) => (
+                        <div key={product.id}>
                             <div className="mb-4 h-56 w-full bg-slate-300" />
-                            <h3 className="-mb-1 text-gray-700">Galaxy S60</h3>
+                            <h3 className="-mb-1 text-gray-700">
+                                {product.name}
+                            </h3>
                             <p className="text-sm font-medium text-gray-900">
-                                $6
+                                ${product.price}
                             </p>
                         </div>
                     ))}
