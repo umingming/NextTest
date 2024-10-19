@@ -4,15 +4,17 @@ import ButtonText from "@/components/common/button/ButtonText";
 import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
-import { Product } from "@prisma/client";
+import { Product, User } from "@prisma/client";
 import { useMemo } from "react";
 import useSWR from "swr";
+
+type ProductWithUser = Product & { user: User };
 
 export default function ProductDetail({ params: { id } }: any) {
     const { data } = useSWR(`/api/products/${id}`, (url) =>
         fetch(url).then((response) => response.json()),
     );
-    const { name, description, price } = useMemo<Product>(
+    const { name, description, price, user } = useMemo<ProductWithUser>(
         () => data?.product ?? {},
         [data],
     );
@@ -22,7 +24,7 @@ export default function ProductDetail({ params: { id } }: any) {
             <div className="mb-8">
                 <div className="h-96 bg-slate-300" />
                 <div className="border-b pl-1">
-                    <CardProfile>
+                    <CardProfile user={user}>
                         <p className="text-xs font-medium text-gray-500">
                             View profile &rarr;
                         </p>

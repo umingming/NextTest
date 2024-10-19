@@ -12,9 +12,19 @@ async function handler(
             where: {
                 id: id?.toString(),
             },
+            include: {
+                // user: true 하면 모든 데이터 가져옴.
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image: true,
+                    },
+                },
+            },
         });
         return res.json({ ok: true, product });
     }
 }
 
-export default withHandler(["GET", "POST"], handler);
+export default withHandler(["GET"], handler);
