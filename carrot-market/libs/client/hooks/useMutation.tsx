@@ -16,7 +16,6 @@ export default function useMutationM<T>(url: string): UseMutationResult<T> {
 
     function mutation(body: any): void {
         setLoading(true);
-
         fetch(url, {
             method: "POST",
             // header를 지정하지 않으면 서버에서 body의 프로퍼티에 접근할 수 없다.

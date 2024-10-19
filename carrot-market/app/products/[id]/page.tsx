@@ -4,6 +4,7 @@ import ButtonText from "@/components/common/button/ButtonText";
 import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
+import useMutation from "@/libs/client/hooks/useMutation";
 import { Product, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
@@ -36,6 +37,11 @@ export default function ProductDetail({ params: { id } }: any) {
     const router = useRouter();
     const goDetail = (id: string) => router.push(`/products/${id}`);
 
+    const [toggleFavorite] = useMutation(`/api/products/${id}/favorite`);
+    const onFavoriteClick = () => {
+        toggleFavorite({});
+    };
+
     return (
         <div className="px-4">
             <div className="mb-8">
@@ -49,13 +55,16 @@ export default function ProductDetail({ params: { id } }: any) {
                 </div>
                 <div className="mt-4">
                     <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
-                    <p className="mt-3 text-3xl text-gray-900">${price}</p>
+                    <p className="mt-3 text-2xl text-gray-900">${price}</p>
                     <p className="my-6 text-base text-gray-700">
                         {description}
                     </p>
                     <div className="flex items-center justify-between space-x-2">
                         <ButtonText label="Talk to seller" />
-                        <button className="flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                        <button
+                            className="mt-2 flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                            onClick={onFavoriteClick}
+                        >
                             <IconBase iconKey={ICON_KEY.LIKE} />
                         </button>
                     </div>
