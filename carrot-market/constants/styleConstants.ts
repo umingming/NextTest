@@ -11,6 +11,7 @@ export const COLOR = {
     GOLD: "yellow-400",
     HOVER: "orange-600",
     PRIMARY: "orange-500",
+    RED: "red-500",
     SOFT: "gray-400",
 };
 

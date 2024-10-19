@@ -4,10 +4,11 @@ import ButtonText from "@/components/common/button/ButtonText";
 import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
+import { TEXT } from "@/constants/styleConstants";
 import useMutation from "@/libs/client/hooks/useMutation";
 import { Product, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 
 // type ProductWithUser = Product & { user: User };
@@ -19,6 +20,7 @@ interface ProductDetailResponse {
     ok: boolean;
     product: ProductWithUser;
     relatedProducts: Product[];
+    isLiked: boolean;
 }
 
 export default function ProductDetail({ params: { id } }: any) {
@@ -34,11 +36,14 @@ export default function ProductDetail({ params: { id } }: any) {
         () => data?.relatedProducts ?? ([] as Product[]),
         [data],
     );
+
     const router = useRouter();
     const goDetail = (id: string) => router.push(`/products/${id}`);
 
+    const [liked, setLiked] = useState<boolean>(data?.isLiked ?? false);
     const [toggleFavorite] = useMutation(`/api/products/${id}/favorite`);
     const onFavoriteClick = () => {
+        setLiked(!liked);
         toggleFavorite({});
     };
 
@@ -65,7 +70,11 @@ export default function ProductDetail({ params: { id } }: any) {
                             className="mt-2 flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
                             onClick={onFavoriteClick}
                         >
-                            <IconBase iconKey={ICON_KEY.LIKE} />
+                            <IconBase
+                                iconKey={ICON_KEY.LIKE}
+                                color={liked ? TEXT.COLOR.RED : TEXT.COLOR.SOFT}
+                                isFill={liked}
+                            />
                         </button>
                     </div>
                 </div>
