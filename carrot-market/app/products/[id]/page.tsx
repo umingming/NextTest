@@ -8,14 +8,23 @@ import { Product, User } from "@prisma/client";
 import { useMemo } from "react";
 import useSWR from "swr";
 
-type ProductWithUser = Product & { user: User };
+// type ProductWithUser = Product & { user: User };
+interface ProductWithUser extends Product {
+    user: User;
+}
+
+interface ProductDetailResponse {
+    ok: boolean;
+    product: ProductWithUser;
+}
 
 export default function ProductDetail({ params: { id } }: any) {
-    const { data } = useSWR(`/api/products/${id}`, (url) =>
-        fetch(url).then((response) => response.json()),
+    const { data } = useSWR<ProductDetailResponse>(
+        `/api/products/${id}`,
+        (url: string) => fetch(url).then((response) => response.json()),
     );
     const { name, description, price, user } = useMemo<ProductWithUser>(
-        () => data?.product ?? {},
+        () => data?.product ?? ({} as ProductWithUser),
         [data],
     );
 
