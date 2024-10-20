@@ -9,7 +9,7 @@ interface UseMutationState<T> {
 }
 type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
-export default function useMutationM<T>(url: string): UseMutationResult<T> {
+export default function useMutation<T>(url: string): UseMutationResult<T> {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<undefined | T>(undefined);
     const [error, setError] = useState<undefined | any>(undefined);
