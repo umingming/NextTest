@@ -8,16 +8,31 @@ import { ICON_KEY } from "@/constants/keyConstants";
 import { TEXT } from "@/constants/styleConstants";
 import useMutation from "@/libs/client/hooks/useMutation";
 import { Post, PostAnswer, User } from "@prisma/client";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 import useSWR from "swr";
 
+interface AnswerWithUser extends PostAnswer {
+    user: User;
+}
+
+interface AnswerForm {
+    answer: string;
+}
+
+interface AnswerResponse {
+    ok: boolean;
+    newAnswer: PostAnswer;
+}
 interface PostDetailCount {
     answers: number;
     wonderings: number;
 }
+
 interface PostDetail extends Post {
     user: User;
-    answers: PostAnswer[];
+    answers: AnswerWithUser[];
     _count: PostDetailCount;
 }
 
@@ -33,12 +48,16 @@ export default function CommunityDetail({ params: { id } }: any) {
         (url: string) => fetch(url).then((response) => response.json()),
     );
     const { post, isWondering } = data ?? ({} as PostDetailResponse);
-    const { question, user, _count } = post ?? ({} as PostDetail);
+    const {
+        question,
+        user,
+        answers = [] as AnswerWithUser[],
+        _count,
+    } = post ?? ({} as PostDetail);
 
     const [toggleWondering] = useMutation(`/api/posts/${id}/wondering`);
 
     const onWonderingClick = () => {
-        toggleWondering({});
         if (data) {
             mutate(
                 {
@@ -57,7 +76,24 @@ export default function CommunityDetail({ params: { id } }: any) {
                 false,
             );
         }
+        toggleWondering({});
     };
+
+    const { register, handleSubmit, reset } = useForm<AnswerForm>();
+
+    const [sendAnswer, { data: answerData }] = useMutation<AnswerResponse>(
+        `/api/posts/${id}/answer`,
+    );
+
+    const onValid = (data: AnswerForm) => {
+        sendAnswer(data);
+    };
+
+    useEffect(() => {
+        if (answerData?.ok) {
+            reset();
+        }
+    }, [answerData]);
 
     return (
         <div>
@@ -71,7 +107,7 @@ export default function CommunityDetail({ params: { id } }: any) {
                     </p>
                 </CardProfile>
             </div>
-            <div>
+            <div className="mb-2">
                 <div className="mt-2 px-4 text-gray-700">
                     <span className="font-medium text-orange-500">Q. </span>
                     {question}
@@ -98,20 +134,28 @@ export default function CommunityDetail({ params: { id } }: any) {
                     </span>
                 </div>
             </div>
-            <div className="mb-5 mt-1 px-4">
-                <CardProfile imagePx={8}>
-                    <span className="block text-xs text-gray-500">
-                        2시간 전
-                    </span>
-                </CardProfile>
-                <p className="relative -top-1 ml-10 pl-1 text-gray-700">
-                    The best mandu restaurant is the one next to my house.
-                </p>
-            </div>
-            <div className="px-4">
-                <InputBox placeholder="Answer this question!" />
+            {answers.map(({ id, user, answer }) => (
+                <div key={id} className="mb-5 mt-1 px-4">
+                    <CardProfile user={user} imagePx={8}>
+                        <span className="block text-xs text-gray-500">
+                            2시간 전
+                        </span>
+                    </CardProfile>
+                    <p className="relative -top-1 ml-10 pl-1 text-gray-700">
+                        {answer}
+                    </p>
+                </div>
+            ))}
+            <form className="px-4" onSubmit={handleSubmit(onValid)}>
+                <InputBox
+                    register={register("answer", {
+                        required: true,
+                        minLength: 5,
+                    })}
+                    placeholder="Answer this question!"
+                />
                 <ButtonText label="Reply" />
-            </div>
+            </form>
         </div>
     );
 }

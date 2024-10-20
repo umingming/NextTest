@@ -25,7 +25,11 @@ async function handler(
                         image: true,
                     },
                 },
-                answers: true,
+                answers: {
+                    include: {
+                        user: { select: { id: true, name: true, image: true } },
+                    },
+                },
                 _count: {
                     select: {
                         answers: true,
