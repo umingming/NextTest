@@ -25,7 +25,7 @@ async function handler(
     }
 
     if (req.method === "POST") {
-        const { question } = req.body;
+        const { question, latitude, longitude } = req.body;
 
         const session = await getServerSession(req, res, authOptions);
         const { id } = session?.user as User;
@@ -33,6 +33,8 @@ async function handler(
         const post = await client.post.create({
             data: {
                 question,
+                latitude,
+                longitude,
                 user: { connect: { id } },
             },
         });

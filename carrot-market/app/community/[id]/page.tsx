@@ -92,12 +92,13 @@ export default function CommunityDetail({ params: { id } }: any) {
     useEffect(() => {
         if (answerData?.ok) {
             reset();
+            mutate();
         }
     }, [answerData]);
 
     return (
         <div>
-            <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+            <span className="mb-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                 동네질문
             </span>
             <div className="border-b pb-1 pl-4">
@@ -107,7 +108,7 @@ export default function CommunityDetail({ params: { id } }: any) {
                     </p>
                 </CardProfile>
             </div>
-            <div className="mb-2">
+            <div className="mb-4">
                 <div className="mt-2 px-4 text-gray-700">
                     <span className="font-medium text-orange-500">Q. </span>
                     {question}
@@ -124,6 +125,7 @@ export default function CommunityDetail({ params: { id } }: any) {
                                     ? TEXT.COLOR.GREEN
                                     : TEXT.COLOR.DEFAULT
                             }
+                            strokeWidth={isWondering ? 2.2 : 1.8}
                             size={4}
                         />
                         <span>궁금해요 {_count?.wonderings ?? 0}</span>
@@ -146,7 +148,7 @@ export default function CommunityDetail({ params: { id } }: any) {
                     </p>
                 </div>
             ))}
-            <form className="px-4" onSubmit={handleSubmit(onValid)}>
+            <form className="px-4 pt-3" onSubmit={handleSubmit(onValid)}>
                 <InputBox
                     register={register("answer", {
                         required: true,

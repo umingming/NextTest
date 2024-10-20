@@ -85,6 +85,8 @@ model Post {
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
   question   String
+  latitude   Float?
+  longitude  Float?
   answers    PostAnswer[]
   wonderings PostWondering[]
 }
