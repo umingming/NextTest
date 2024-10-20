@@ -34,7 +34,14 @@ async function handler(
                 },
             },
         });
-        return res.json({ ok: true, post });
+
+        const isWondering = Boolean(
+            await client.postWondering.findFirst({
+                where: { postId: id, userId },
+                select: { id: true },
+            }),
+        );
+        return res.json({ ok: true, post, isWondering });
     }
 }
 

@@ -9,6 +9,7 @@ export const COLOR = {
     DARK: "gray-900",
     DEFAULT: "gray-700",
     GOLD: "yellow-400",
+    GREEN: "teal-500",
     HOVER: "orange-600",
     PRIMARY: "orange-500",
     RED: "red-500",

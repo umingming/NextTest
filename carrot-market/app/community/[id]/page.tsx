@@ -5,30 +5,59 @@ import CardProfile from "@/components/common/card/CardProfile";
 import IconBase from "@/components/common/icon/IconBase";
 import InputBox from "@/components/common/input/InputBox";
 import { ICON_KEY } from "@/constants/keyConstants";
+import { TEXT } from "@/constants/styleConstants";
+import useMutation from "@/libs/client/hooks/useMutation";
 import { Post, PostAnswer, User } from "@prisma/client";
 
 import useSWR from "swr";
 
+interface PostDetailCount {
+    answers: number;
+    wonderings: number;
+}
 interface PostDetail extends Post {
     user: User;
     answers: PostAnswer[];
-    _count: {
-        answers: number;
-        wonderings: number;
-    };
+    _count: PostDetailCount;
 }
 
 interface PostDetailResponse {
     ok: boolean;
     post: PostDetail;
+    isWondering: boolean;
 }
 
 export default function CommunityDetail({ params: { id } }: any) {
-    const { data } = useSWR<PostDetailResponse>(
+    const { data, mutate } = useSWR<PostDetailResponse>(
         `/api/posts/${id}`,
         (url: string) => fetch(url).then((response) => response.json()),
     );
-    const { question, user, _count } = data?.post ?? ({} as PostDetail);
+    const { post, isWondering } = data ?? ({} as PostDetailResponse);
+    const { question, user, _count } = post ?? ({} as PostDetail);
+
+    const [toggleWondering] = useMutation(`/api/posts/${id}/wondering`);
+
+    const onWonderingClick = () => {
+        toggleWondering({});
+        if (data) {
+            mutate(
+                {
+                    ...data,
+                    post: {
+                        ...post,
+                        _count: {
+                            ..._count,
+                            wonderings: data.isWondering
+                                ? _count.wonderings - 1
+                                : _count.wonderings + 1,
+                        },
+                    },
+                    isWondering: !data.isWondering,
+                },
+                false,
+            );
+        }
+    };
 
     return (
         <div>
@@ -48,8 +77,19 @@ export default function CommunityDetail({ params: { id } }: any) {
                     {question}
                 </div>
                 <div className="mt-3 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5 text-gray-700">
-                    <span className="flex items-center space-x-2 text-sm">
-                        <IconBase iconKey={ICON_KEY.QUESTION} size={4} />
+                    <span
+                        onClick={onWonderingClick}
+                        className="flex cursor-pointer items-center space-x-2 text-sm"
+                    >
+                        <IconBase
+                            iconKey={ICON_KEY.QUESTION}
+                            color={
+                                isWondering
+                                    ? TEXT.COLOR.GREEN
+                                    : TEXT.COLOR.DEFAULT
+                            }
+                            size={4}
+                        />
                         <span>궁금해요 {_count?.wonderings ?? 0}</span>
                     </span>
                     <span className="flex items-center space-x-2 text-sm">
