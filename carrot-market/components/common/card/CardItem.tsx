@@ -4,8 +4,19 @@ import { useRouter } from "next/navigation";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
 import { Product } from "@prisma/client";
+interface ProductWithFavoriteCount extends Product {
+    _count: {
+        favorites: number;
+    };
+}
 
-export default function CardItem({ id, name, price, description }: Product) {
+export default function CardItem({
+    id,
+    name,
+    price,
+    description,
+    _count,
+}: ProductWithFavoriteCount) {
     const router = useRouter();
     const goItem = () => router.push(`/products/${id}`);
 
@@ -26,7 +37,7 @@ export default function CardItem({ id, name, price, description }: Product) {
             <div className="flex items-end justify-end space-x-1.5">
                 <div className="flex items-center space-x-0.5 text-sm text-gray-600">
                     <IconBase iconKey={ICON_KEY.LIKE} size={4} />
-                    <span>1</span>
+                    <span>{_count.favorites}</span>
                 </div>
                 <div className="flex items-center space-x-0.5 text-sm text-gray-600">
                     <IconBase iconKey={ICON_KEY.CHAT} size={4} />
