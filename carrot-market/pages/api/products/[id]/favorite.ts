@@ -14,15 +14,15 @@ async function handler(
         const session = await getServerSession(req, res, authOptions);
         const { id: userId } = session?.user as User;
 
-        const favorite = await client.favorite.findFirst({
+        const favorite = await client.productFavorite.findFirst({
             where: { productId, userId },
         });
 
         if (favorite) {
             const { id } = favorite;
-            await client.favorite.delete({ where: { id } });
+            await client.productFavorite.delete({ where: { id } });
         } else {
-            await client.favorite.create({
+            await client.productFavorite.create({
                 data: {
                     user: { connect: { id: userId } },
                     product: { connect: { id: productId } },

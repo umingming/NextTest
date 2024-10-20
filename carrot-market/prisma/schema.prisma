@@ -16,18 +16,21 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  email     String     @unique
-  password  String?
-  phone     Int?
-  name      String?
-  image     String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  tokens    Token[]
-  accounts  Account[]
-  products  Product[]
-  favorites Favorite[]
+  id            String            @id @default(auto()) @map("_id") @db.ObjectId
+  email         String            @unique
+  password      String?
+  phone         Int?
+  name          String?
+  image         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  tokens        Token[]
+  accounts      Account[]
+  products      Product[]
+  favorites     ProductFavorite[]
+  posts         Post[]
+  postAnswers   PostAnswer[]
+  postWondering PostWondering[]
 }
 
 model Account {
@@ -35,7 +38,7 @@ model Account {
   userId            String  @db.ObjectId
   provider          String
   providerAccountId String
-  user              User    @relation(fields: [userId], references: [id])
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken       String?
   tokenType         String?
   scope             String?
@@ -53,24 +56,56 @@ model Token {
 }
 
 model Product {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  user        User       @relation(fields: [userId], references: [id])
-  userId      String     @db.ObjectId
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String            @db.ObjectId
   name        String
   image       String?
   price       Int
   description String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  favorites   Favorite[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  favorites   ProductFavorite[]
 }
 
-model Favorite {
+model ProductFavorite {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String   @db.ObjectId
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String          @db.ObjectId
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  question  String
+  answers   PostAnswer[]
+  wondering PostWondering[]
+}
+
+model PostAnswer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  answer    String
+}
+
+model PostWondering {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String   @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

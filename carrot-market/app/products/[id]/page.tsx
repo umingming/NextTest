@@ -43,7 +43,8 @@ export default function ProductDetail({ params: { id } }: any) {
         relatedProducts = [],
         isLiked = false,
     } = data ?? ({} as ProductDetailResponse);
-    const { name, description, price, user } = product as ProductWithUser;
+    const { name, description, price, user } =
+        product ?? ({} as ProductWithUser);
 
     const router = useRouter();
     const goDetail = (id: string) => router.push(`/products/${id}`);
