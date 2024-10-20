@@ -24,27 +24,41 @@ interface ProductDetailResponse {
 }
 
 export default function ProductDetail({ params: { id } }: any) {
-    const { data } = useSWR<ProductDetailResponse>(
+    const { data, mutate } = useSWR<ProductDetailResponse>(
         `/api/products/${id}`,
         (url: string) => fetch(url).then((response) => response.json()),
     );
-    const { name, description, price, user } = useMemo<ProductWithUser>(
-        () => data?.product ?? ({} as ProductWithUser),
-        [data],
-    );
-    const relatedProducts = useMemo<Product[]>(
-        () => data?.relatedProducts ?? ([] as Product[]),
-        [data],
-    );
+    // const { name, description, price, user } = useMemo<ProductWithUser>(
+    //     () => data?.product ?? ({} as ProductWithUser),
+    //     [data],
+    // );
+    // const relatedProducts = useMemo<Product[]>(
+    //     () => data?.relatedProducts ?? ([] as Product[]),
+    //     [data],
+    // );
+
+    // data가 undefined일 수도 있어서 정의해줘야 함.
+    const {
+        product,
+        relatedProducts = [],
+        isLiked = false,
+    } = data ?? ({} as ProductDetailResponse);
+    const { name, description, price, user } = product as ProductWithUser;
 
     const router = useRouter();
     const goDetail = (id: string) => router.push(`/products/${id}`);
 
-    const [liked, setLiked] = useState<boolean>(data?.isLiked ?? false);
+    // const [liked, setLiked] = useState<boolean>(data?.isLiked ?? false);
     const [toggleFavorite] = useMutation(`/api/products/${id}/favorite`);
     const onFavoriteClick = () => {
-        setLiked(!liked);
+        // setTimeout(() => setLiked((liked) => !liked), 100);
         toggleFavorite({});
+
+        // mutate에서 두번째 인자로 false를 넣으면 검증하지 않고 그 데이터를 그대로 사용함.
+        // true일 경우 검증해서 다르면 제대로된 데이터 보여줌.
+        if (data) {
+            mutate({ ...data, isLiked: !data.isLiked }, false);
+        }
     };
 
     return (
@@ -72,8 +86,10 @@ export default function ProductDetail({ params: { id } }: any) {
                         >
                             <IconBase
                                 iconKey={ICON_KEY.LIKE}
-                                color={liked ? TEXT.COLOR.RED : TEXT.COLOR.SOFT}
-                                isFill={liked}
+                                color={
+                                    isLiked ? TEXT.COLOR.RED : TEXT.COLOR.SOFT
+                                }
+                                isFill={isLiked}
                             />
                         </button>
                     </div>
