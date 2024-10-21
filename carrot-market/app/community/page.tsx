@@ -3,6 +3,7 @@
 import ButtonCreate from "@/components/common/button/ButtonCreate";
 import IconBase from "@/components/common/icon/IconBase";
 import { ICON_KEY } from "@/constants/keyConstants";
+import { useCoords } from "@/libs/client/hooks/useCoords";
 import { Post, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
@@ -24,8 +25,10 @@ export default function Community() {
     const router = useRouter();
     const goDetail = (id: string) => router.push(`/community/${id}`);
 
-    const { data = {} } = useSWR<PostsResponse>("/api/posts", (url: string) =>
-        fetch(url).then((response) => response.json()),
+    const { latitude, longitude } = useCoords();
+    const { data = {} } = useSWR<PostsResponse>(
+        `/api/posts?latitude=${latitude}&longitude=${longitude}`,
+        (url: string) => fetch(url).then((response) => response.json()),
     );
     const { posts = [] as PostDetail[] } = data as PostsResponse;
 

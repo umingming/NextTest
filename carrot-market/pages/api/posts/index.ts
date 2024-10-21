@@ -10,7 +10,19 @@ async function handler(
     res: NextApiResponse<ResponseType>,
 ) {
     if (req.method === "GET") {
+        const { latitude, longitude } = req.query;
+
         const posts = await client.post.findMany({
+            where: {
+                latitude: {
+                    gte: (Number(latitude) || 0) - 0.01,
+                    lte: (Number(latitude) || 0) + 0.01,
+                },
+                longitude: {
+                    gte: (Number(longitude) || 0) - 0.01,
+                    lte: (Number(longitude) || 0) + 0.01,
+                },
+            },
             include: {
                 user: { select: { name: true } },
                 _count: {
