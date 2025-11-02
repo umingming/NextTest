@@ -13,11 +13,20 @@ Next.js와 TanStack Query를 활용한 블로그 CRUD 연습 프로젝트입니�
 
 ## 주요 기능
 
+### 인증 기능
+
+- ✅ 회원가입 (이메일/비밀번호)
+- ✅ 로그인/로그아웃
+- ✅ 세션 관리 (NextAuth.js)
+- ✅ 비밀번호 암호화 (bcrypt)
+
+### 포스트 기능
+
 - ✅ 포스트 목록 조회 (READ)
 - ✅ 포스트 상세 조회 (READ)
-- ✅ 포스트 작성 (CREATE)
-- ✅ 포스트 수정 (UPDATE)
-- ✅ 포스트 삭제 (DELETE)
+- ✅ 포스트 작성 (CREATE) - 로그인 필요
+- ✅ 포스트 수정 (UPDATE) - 본인만 가능
+- ✅ 포스트 삭제 (DELETE) - 본인만 가능
 - ✅ 태그 기능
 - ✅ 실시간 데이터 업데이트 (TanStack Query)
 
@@ -27,23 +36,49 @@ Next.js와 TanStack Query를 활용한 블로그 CRUD 연습 프로젝트입니�
 blog/
 ├── app/
 │   ├── api/
-│   │   └── posts/          # API 라우트
-│   │       ├── route.ts    # GET, POST
-│   │       └── [id]/
-│   │           └── route.ts # GET, PUT, DELETE
+│   │   ├── auth/                  # 인증 API
+│   │   │   ├── [...nextauth]/    # NextAuth 엔드포인트
+│   │   │   ├── register/         # 회원가입
+│   │   │   └── me/               # 현재 사용자 정보
+│   │   ├── posts/                # 포스트 API
+│   │   │   ├── route.ts          # GET, POST
+│   │   │   └── [id]/
+│   │   │       ├── route.ts      # GET, PUT, DELETE
+│   │   │       └── comments/
+│   │   │           └── route.ts  # 댓글 GET, POST
+│   │   └── comments/[id]/
+│   │       └── route.ts          # 댓글 DELETE
+│   ├── login/                    # 로그인 페이지
+│   ├── register/                 # 회원가입 페이지
+│   ├── posts/[id]/
+│   │   ├── page.tsx              # 포스트 상세 페이지
+│   │   └── edit/
+│   │       └── page.tsx          # 포스트 수정 페이지
+│   ├── page.tsx                  # 메인 (목록)
 │   ├── layout.tsx
-│   ├── page.tsx
-│   ├── providers.tsx       # TanStack Query Provider
+│   ├── providers.tsx             # TanStack Query + NextAuth
 │   └── globals.css
 ├── components/
-│   ├── PostForm.tsx        # 포스트 작성/수정 폼
-│   └── PostList.tsx        # 포스트 목록
+│   ├── auth/
+│   │   ├── LoginForm.tsx         # 로그인 폼
+│   │   ├── RegisterForm.tsx      # 회원가입 폼
+│   │   └── AuthNav.tsx           # 인증 네비게이션
+│   ├── comments/
+│   │   ├── CommentForm.tsx       # 댓글 작성 폼
+│   │   └── CommentList.tsx       # 댓글 목록
+│   ├── PostForm.tsx              # 포스트 작성 폼
+│   └── PostList.tsx              # 포스트 목록 (제목만)
 ├── hooks/
-│   └── usePosts.ts         # TanStack Query 커스텀 훅
+│   ├── usePosts.ts               # 포스트 쿼리 훅
+│   └── useComments.ts            # 댓글 쿼리 훅
 ├── libs/
-│   └── database.ts         # MongoDB 연결
+│   ├── database.ts               # MongoDB 연결
+│   └── auth.ts                   # NextAuth 설정
 ├── types/
-│   └── post.ts             # 타입 정의
+│   ├── post.ts                   # Post 타입
+│   ├── comment.ts                # Comment 타입
+│   ├── user.ts                   # User 타입
+│   └── next-auth.d.ts            # NextAuth 타입 확장
 └── package.json
 ```
 
@@ -66,11 +101,19 @@ cp .env.example .env.local
 `.env.local` 내용:
 
 ```env
+# MongoDB
 MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/
 NODE_ENV=development
+
+# NextAuth
+NEXTAUTH_SECRET=your_nextauth_secret_here_change_this_in_production
+NEXTAUTH_URL=http://localhost:3000
 ```
 
-> ⚠️ **중요**: `.env.local` 파일은 절대로 Git에 커밋하지 마세요! (이미 .gitignore에 포함되어 있습니다)
+> ⚠️ **중요**:
+>
+> - `.env.local` 파일은 절대로 Git에 커밋하지 마세요!
+> - `NEXTAUTH_SECRET`은 랜덤한 문자열로 변경하세요 (예: `openssl rand -base64 32`)
 
 ### 3. 개발 서버 실행
 
@@ -82,37 +125,68 @@ pnpm dev
 
 ## API 엔드포인트
 
-### 포스트 목록 조회
+### 인증 API
+
+#### 회원가입
+
+```
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "name": "홍길동",
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+#### 로그인
+
+```
+POST /api/auth/signin (NextAuth 자동 생성)
+```
+
+#### 현재 사용자 정보
+
+```
+GET /api/auth/me
+Authorization: Bearer {session}
+```
+
+### 포스트 API
+
+#### 포스트 목록 조회
 
 ```
 GET /api/posts
 ```
 
-### 포스트 생성
+#### 포스트 생성 (로그인 필요)
 
 ```
 POST /api/posts
 Content-Type: application/json
+Authorization: Required
 
 {
   "title": "제목",
   "content": "내용",
-  "author": "작성자",
   "tags": ["tag1", "tag2"]
 }
 ```
 
-### 포스트 상세 조회
+#### 포스트 상세 조회
 
 ```
 GET /api/posts/:id
 ```
 
-### 포스트 수정
+#### 포스트 수정 (본인만 가능)
 
 ```
 PUT /api/posts/:id
 Content-Type: application/json
+Authorization: Required
 
 {
   "title": "수정된 제목",
@@ -120,13 +194,41 @@ Content-Type: application/json
 }
 ```
 
-### 포스트 삭제
+#### 포스트 삭제 (본인만 가능)
 
 ```
 DELETE /api/posts/:id
+Authorization: Required
 ```
 
-## TanStack Query 사용 예시
+## 사용 예시
+
+### 인증 사용
+
+```typescript
+import { useSession, signIn, signOut } from "next-auth/react";
+
+function MyComponent() {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (session) {
+    return (
+      <div>
+        안녕하세요, {session.user.name}님!
+        <button onClick={() => signOut()}>로그아웃</button>
+      </div>
+    );
+  }
+
+  return <button onClick={() => signIn()}>로그인</button>;
+}
+```
+
+### TanStack Query 사용
 
 ```typescript
 import { usePosts, useCreatePost } from "@/hooks/usePosts";
@@ -139,7 +241,7 @@ function MyComponent() {
         await createPost.mutateAsync({
             title: "새 포스트",
             content: "내용",
-            author: "작성자",
+            tags: ["React", "Next.js"],
         });
     };
 

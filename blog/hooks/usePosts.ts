@@ -4,11 +4,21 @@ import { Post, CreatePostDto, UpdatePostDto } from "@/types/post";
 const API_BASE = "/api/posts";
 
 /**
+ * 쿼리 키 팩토리 패턴
+ * 모든 포스트 관련 쿼리 키를 중앙에서 관리
+ */
+export const postKeys = {
+    all: ["posts"] as const,
+    list: () => [...postKeys.all, "list"] as const,
+    detail: (id: string) => [...postKeys.all, "detail", id] as const,
+};
+
+/**
  * 모든 포스트를 가져오는 훅
  */
 export function usePosts() {
     return useQuery({
-        queryKey: ["posts"],
+        queryKey: postKeys.list(),
         queryFn: async () => {
             const response = await fetch(API_BASE);
             if (!response.ok) {
@@ -25,7 +35,7 @@ export function usePosts() {
  */
 export function usePost(id: string | null) {
     return useQuery({
-        queryKey: ["posts", id],
+        queryKey: id ? postKeys.detail(id) : ["posts", "detail", null],
         queryFn: async () => {
             if (!id) throw new Error("Post ID is required");
             const response = await fetch(`${API_BASE}/${id}`);
@@ -63,7 +73,8 @@ export function useCreatePost() {
             return result.data as Post;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
+            // 모든 포스트 관련 쿼리 무효화
+            queryClient.invalidateQueries({ queryKey: postKeys.all });
         },
     });
 }
@@ -97,11 +108,9 @@ export function useUpdatePost() {
             const result = await response.json();
             return result.data as Post;
         },
-        onSuccess: (_, variables) => {
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
-            queryClient.invalidateQueries({
-                queryKey: ["posts", variables.id],
-            });
+        onSuccess: () => {
+            // 모든 포스트 관련 쿼리 무효화
+            queryClient.invalidateQueries({ queryKey: postKeys.all });
         },
     });
 }
@@ -125,7 +134,8 @@ export function useDeletePost() {
             return await response.json();
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
+            // 모든 포스트 관련 쿼리 무효화
+            queryClient.invalidateQueries({ queryKey: postKeys.all });
         },
     });
 }

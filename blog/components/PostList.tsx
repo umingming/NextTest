@@ -1,15 +1,11 @@
 "use client";
 
-import { usePosts, useDeletePost } from "@/hooks/usePosts";
-import { Post } from "@/types/post";
+import { useRouter } from "next/navigation";
+import { usePosts } from "@/hooks/usePosts";
 
-interface PostListProps {
-    onEdit: (post: Post) => void;
-}
-
-export default function PostList({ onEdit }: PostListProps) {
+export default function PostList() {
+    const router = useRouter();
     const { data: posts, isLoading, error } = usePosts();
-    const deletePost = useDeletePost();
 
     if (isLoading) {
         return (
@@ -42,58 +38,39 @@ export default function PostList({ onEdit }: PostListProps) {
         );
     }
 
-    const handleDelete = async (id: string) => {
-        if (confirm("정말로 이 포스트를 삭제하시겠습니까?")) {
-            try {
-                await deletePost.mutateAsync(id);
-            } catch (error) {
-                alert("포스트 삭제에 실패했습니다.");
-            }
-        }
-    };
-
     return (
-        <div className="space-y-6">
+        <div className="space-y-4">
             {posts.map((post) => (
                 <article
                     key={post._id}
-                    className="rounded-lg border border-gray-200 bg-white p-6 transition-shadow hover:shadow-md"
+                    onClick={() => router.push(`/posts/${post._id}`)}
+                    className="cursor-pointer rounded-lg border border-gray-200 bg-white p-6 transition-all hover:border-blue-300 hover:shadow-md"
                 >
-                    <div className="mb-3 flex items-start justify-between">
-                        <h2 className="text-2xl font-bold text-gray-800">
-                            {post.title}
-                        </h2>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => onEdit(post)}
-                                className="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-600"
-                            >
-                                수정
-                            </button>
-                            <button
-                                onClick={() => handleDelete(post._id!)}
-                                disabled={deletePost.isPending}
-                                className="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600 disabled:opacity-50"
-                            >
-                                삭제
-                            </button>
-                        </div>
-                    </div>
+                    <h2 className="mb-3 text-2xl font-bold text-gray-800 hover:text-blue-600">
+                        {post.title}
+                    </h2>
 
-                    <p className="mb-4 whitespace-pre-wrap text-gray-600">
-                        {post.content}
-                    </p>
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                        <span className="font-medium">{post.authorName}</span>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                        <span className="font-medium">
-                            작성자: {post.author}
+                        {post.createdAt && (
+                            <time>
+                                {new Date(post.createdAt).toLocaleDateString(
+                                    "ko-KR",
+                                )}
+                            </time>
+                        )}
+
+                        <span className="flex items-center gap-1">
+                            💬 {post.commentCount || 0}
                         </span>
+
                         {post.tags && post.tags.length > 0 && (
                             <div className="flex gap-2">
                                 {post.tags.map((tag, index) => (
                                     <span
                                         key={index}
-                                        className="rounded bg-gray-100 px-2 py-1 text-gray-700"
+                                        className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-700"
                                     >
                                         #{tag}
                                     </span>
@@ -101,12 +78,6 @@ export default function PostList({ onEdit }: PostListProps) {
                             </div>
                         )}
                     </div>
-
-                    {post.createdAt && (
-                        <div className="mt-3 text-xs text-gray-400">
-                            {new Date(post.createdAt).toLocaleString("ko-KR")}
-                        </div>
-                    )}
                 </article>
             ))}
         </div>

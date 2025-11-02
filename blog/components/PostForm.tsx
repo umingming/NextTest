@@ -1,18 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useCreatePost, useUpdatePost } from "@/hooks/usePosts";
-import { Post } from "@/types/post";
+import { useCreatePost } from "@/hooks/usePosts";
 
-interface PostFormProps {
-    editingPost: Post | null;
-    onComplete: () => void;
-}
-
-export default function PostForm({ editingPost, onComplete }: PostFormProps) {
+export default function PostForm() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [title, setTitle] = useState("");
@@ -20,19 +14,6 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
     const [tags, setTags] = useState("");
 
     const createPost = useCreatePost();
-    const updatePost = useUpdatePost();
-
-    useEffect(() => {
-        if (editingPost) {
-            setTitle(editingPost.title);
-            setContent(editingPost.content);
-            setTags(editingPost.tags?.join(", ") || "");
-        } else {
-            setTitle("");
-            setContent("");
-            setTags("");
-        }
-    }, [editingPost]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,15 +28,11 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
         };
 
         try {
-            if (editingPost?._id) {
-                await updatePost.mutateAsync({
-                    id: editingPost._id,
-                    data: postData,
-                });
-            } else {
-                await createPost.mutateAsync(postData);
-            }
-            onComplete();
+            await createPost.mutateAsync(postData);
+            // 작성 완료 후 폼 초기화
+            setTitle("");
+            setContent("");
+            setTags("");
         } catch (error: any) {
             if (error?.message?.includes("401")) {
                 alert("로그인이 필요합니다.");
@@ -66,7 +43,7 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
         }
     };
 
-    const isLoading = createPost.isPending || updatePost.isPending;
+    const isLoading = createPost.isPending;
 
     // 로그인하지 않은 경우
     if (status === "loading") {
@@ -96,9 +73,7 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
 
     return (
         <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-            <h2 className="mb-6 text-2xl font-bold">
-                {editingPost ? "포스트 수정" : "새 포스트 작성"}
-            </h2>
+            <h2 className="mb-6 text-2xl font-bold">새 포스트 작성</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -114,7 +89,7 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-black focus:border-transparent focus:ring-2 focus:ring-blue-500"
                         placeholder="포스트 제목을 입력하세요"
                     />
                 </div>
@@ -132,7 +107,7 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
                         onChange={(e) => setContent(e.target.value)}
                         required
                         rows={8}
-                        className="w-full resize-none rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                        className="w-full resize-none rounded-lg border border-gray-300 px-4 py-2 text-black focus:border-transparent focus:ring-2 focus:ring-blue-500"
                         placeholder="포스트 내용을 입력하세요"
                     />
                 </div>
@@ -154,29 +129,13 @@ export default function PostForm({ editingPost, onComplete }: PostFormProps) {
                     />
                 </div>
 
-                <div className="flex gap-3">
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="flex-1 rounded-lg bg-blue-500 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        {isLoading
-                            ? "저장 중..."
-                            : editingPost
-                              ? "수정하기"
-                              : "작성하기"}
-                    </button>
-
-                    {editingPost && (
-                        <button
-                            type="button"
-                            onClick={onComplete}
-                            className="rounded-lg bg-gray-500 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-600"
-                        >
-                            취소
-                        </button>
-                    )}
-                </div>
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full rounded-lg bg-blue-500 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                    {isLoading ? "작성 중..." : "작성하기"}
+                </button>
             </form>
         </div>
     );

@@ -5,6 +5,7 @@ export interface Post {
     authorId: string; // 작성자 ID
     authorName: string; // 작성자 이름 (표시용)
     tags?: string[];
+    commentCount?: number; // 댓글 개수
     createdAt?: Date;
     updatedAt?: Date;
 }

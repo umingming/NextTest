@@ -66,6 +66,7 @@ export async function POST(request: NextRequest) {
             tags: body.tags || [],
             authorId: session.user.id,
             authorName: session.user.name,
+            commentCount: 0,
             createdAt: new Date(),
             updatedAt: new Date(),
         };

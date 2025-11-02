@@ -7,9 +7,7 @@ export default function AuthNav() {
     const { data: session, status } = useSession();
 
     if (status === "loading") {
-        return (
-            <div className="text-sm text-gray-500">로딩 중...</div>
-        );
+        return <div className="text-sm text-gray-500">로딩 중...</div>;
     }
 
     if (session?.user) {
@@ -46,4 +44,3 @@ export default function AuthNav() {
         </div>
     );
 }
-
